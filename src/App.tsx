@@ -52,7 +52,7 @@ function App() {
             <tr key={r.pageid} className="entry">
               <td>
                 <a
-                  style={{ fontSize: "larger" }}
+                  style={{ fontSize: "x-large" }}
                   href={`https://he.m.wikipedia.org/w/index.php?curid=${r.pageid}`}
                   target="_blank"
                 >
