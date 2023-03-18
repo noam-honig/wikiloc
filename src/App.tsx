@@ -4,7 +4,7 @@ function App() {
   const [location, setLocation] = useState<LatLngLocation>()
   const [locationError, setLocationError] = useState<string>()
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
+    let r = navigator.geolocation.watchPosition(
       function (position) {
         setLocation({
           lat: position.coords.latitude,
@@ -15,6 +15,7 @@ function App() {
         setLocationError("Location Error: " + error.message)
       }
     )
+    return () => navigator.geolocation.clearWatch(r)
   }, [])
 
   return <div>{JSON.stringify(location)}</div>
