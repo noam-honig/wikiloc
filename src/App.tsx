@@ -1,39 +1,15 @@
 import { useEffect, useState } from "react"
 import "./App.css"
+import useLocation from "./hooks/useLocation";
+import {getFetchEntriesURL} from "./utils";
 
 function App() {
-  const [location, setLocation] = useState<LatLngLocation>()
-  const [locationError, setLocationError] = useState<string>()
+  const {location, error: locationError} = useLocation();
   const [result, setResult] = useState<Geosearch[]>([])
-  useEffect(() => {
-    const search = window.location.search
-    if (search.startsWith("?")) {
-      let s = decodeURI( search.substring(1)).split(",")
-      if (s.length == 2) {
-        
-        setLocation({ lat: +s[0], lng: +s[1] })
-        return
-      }
-    }
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        const { latitude, longitude } = position.coords
-        setLocation({
-          lat: latitude,
-          lng: longitude,
-        })
-      },
-      (error) => {
-        setLocationError("Location Error: " + error.message)
-      }
-    )
-  }, [])
+  
   useEffect(() => {
     if (location)
-      fetch(
-        `https://he.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${location.lat}|${location.lng}&gsradius=2000&gslimit=50&format=json&gsprop=type|name&inprop=url&prop=info&origin=*`,
-        {}
-      )
+      fetch(getFetchEntriesURL(location), {})
         .then((y) => y.json())
         .then((y: Result) => {
           setResult(y.query.geosearch)
