@@ -47,10 +47,9 @@ function App() {
                 return r.map((r) => ({
                   ...r,
                   description: y.query.pages[r.pageid]?.description,
-                  mainImage: y.query.pages[r.pageid].thumbnail?.source?.replace(
-                    "50px",
-                    "300px",
-                  ),
+                  mainImage: y.query.pages[
+                    r.pageid
+                  ]?.thumbnail?.source?.replace("50px", "300px"),
                 }));
               }),
             );
