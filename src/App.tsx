@@ -1,14 +1,28 @@
 import { useEffect, useState } from "react"
 
 function App() {
-  const [location, setLocation] = useState<LatLngLocation>()
+  const [location, setLocation] = useState<any>()
   const [locationError, setLocationError] = useState<string>()
   useEffect(() => {
     let r = navigator.geolocation.watchPosition(
       function (position) {
+        const {
+          accuracy,
+          altitude,
+          altitudeAccuracy,
+          heading,
+          latitude,
+          longitude,
+          speed,
+        } = position.coords
         setLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+          accuracy,
+          altitude,
+          altitudeAccuracy,
+          heading,
+          latitude,
+          longitude,
+          speed,
         })
       },
       (error) => {
@@ -18,7 +32,7 @@ function App() {
     return () => navigator.geolocation.clearWatch(r)
   }, [])
 
-  return <div>{JSON.stringify(location)}</div>
+  return <div>{JSON.stringify(location, undefined, 2)}</div>
 }
 
 export default App
