@@ -84,15 +84,6 @@ function App() {
                     />
                   </div>
                 </td>
-                {/* <td>
-                  <div>
-                    <img
-                      src={r.mainImage}
-                      alt="main page image"
-                      className="main-image"
-                    />
-                  </div>
-                </td> */}
                 <td
                   style={{
                     alignItems: "middle",
