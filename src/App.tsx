@@ -47,7 +47,7 @@ function App() {
                 return r.map((r) => ({
                   ...r,
                   description: y.query.pages[r.pageid]?.description,
-                  mainImage: y.query.pages[r.pageid].thumbnail.source.replace(
+                  mainImage: y.query.pages[r.pageid].thumbnail?.source?.replace(
                     "50px",
                     "300px",
                   ),
@@ -77,11 +77,13 @@ function App() {
                   </a>
                   <div>{r.description}</div>
                   <div>
-                    <img
-                      src={r.mainImage}
-                      alt="main page image"
-                      className="main-image"
-                    />
+                    {r.mainImage && (
+                      <img
+                        src={r.mainImage}
+                        alt="main page image"
+                        className="main-image"
+                      />
+                    )}
                   </div>
                 </td>
                 <td
@@ -172,7 +174,7 @@ export interface Geosearch {
   primary: string;
   type: Type | null;
   name: string;
-  mainImage: string;
+  mainImage?: string;
   description?: string;
 }
 
