@@ -1,33 +1,28 @@
 import { useEffect, useState } from "react"
 import "./App.css"
 import useLocation from "./hooks/useLocation";
-import {getFetchEntriesURL} from "./utils";
+import {getEntriesFetchURL, getEntriesInfoFetchURL} from "./utils";
 
 function App() {
   const {location, error: locationError} = useLocation();
   const [result, setResult] = useState<Geosearch[]>([])
   
   useEffect(() => {
-    if (location)
-      fetch(getFetchEntriesURL(location), {})
-        .then((y) => y.json())
-        .then((y: Result) => {
-          setResult(y.query.geosearch)
-          fetch(
-            `https://he.wikipedia.org/w/api.php?action=query&pageids=${y.query.geosearch
-              .map((t) => t.pageid)
-              .join("|")}&format=json&prop=description&origin=*`
-          )
-            .then((y) => y.json())
-            .then((y) =>
-              setResult((r) => {
-                return r.map((r) => ({
-                  ...r,
-                  description: y.query.pages[r.pageid]?.description,
-                }))
-              })
-            )
-        })
+    (async () => {
+      if (location) {
+        const entriesRes = await fetch(getEntriesFetchURL(location));
+        const entriesJson: Result = await entriesRes.json();
+        const {geosearch: entries} = entriesJson.query;
+        setResult(entries);
+
+        const entriesInfoRes = await fetch(getEntriesInfoFetchURL(entries));
+        const entriesInfoResJson = await entriesInfoRes.json();
+        setResult((prev) => prev.map(res => ({
+          ...res,
+          description: entriesInfoResJson.query.pages[res.pageid]?.description
+        })));
+      }
+    })();
   }, [location])
 
   return (
