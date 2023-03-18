@@ -60,10 +60,15 @@ function App() {
                 </a>
                 <div>{r.description}</div>
               </td>
-              <td>
+              <td
+                style={{
+                  alignItems: "middle",
+                }}
+              >
                 <a
                   href={`https://maps.google.com/?q=${r.lat},${r.lon}`}
                   target="_blank"
+                  style={{ width: "32px", height: "32px" }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -88,6 +93,7 @@ function App() {
                   {(r.dist / 1000).toFixed(1)}{" "}
                   <span style={{ fontSize: "small" }}>ק"מ</span>
                 </div>
+                <div>{direction(location, r)}</div>
               </td>
             </tr>
           )
@@ -128,4 +134,30 @@ export interface Geosearch {
 
 export enum Type {
   Landmark = "landmark",
+}
+function direction(location: LatLngLocation | undefined, r: Geosearch) {
+  let degrees =
+    (Math.atan2(location!.lng - r.lon, location!.lat - r.lat) * 180) / Math.PI +
+    180
+  // Define array of directions
+  let directions = [
+    "צפון",
+    "צפ-מז",
+    "מזרח",
+    "דר-מז",
+    "דרום",
+    "דר-מע",
+    "מערב",
+    "צפ-מז",
+  ]
+
+  // Split into the 8 directions
+  degrees = (degrees * 8) / 360
+
+  // round to nearest integer.
+  degrees = Math.round(degrees)
+
+  // Ensure it's within 0-7
+  degrees = (degrees + 8) % 8
+  return directions[degrees]
 }
