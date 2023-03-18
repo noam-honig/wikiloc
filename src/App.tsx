@@ -1,46 +1,45 @@
-import { useEffect, useState } from "react"
-import "./App.css"
+import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
-  const [location, setLocation] = useState<LatLngLocation>()
-  const [locationError, setLocationError] = useState<string>()
-  const [result, setResult] = useState<Geosearch[]>([])
+  const [location, setLocation] = useState<LatLngLocation>();
+  const [locationError, setLocationError] = useState<string>();
+  const [result, setResult] = useState<Geosearch[]>([]);
   useEffect(() => {
-    const search = window.location.search
+    const search = window.location.search;
     if (search.startsWith("?")) {
-      let s = decodeURI( search.substring(1)).split(",")
+      let s = decodeURI(search.substring(1)).split(",");
       if (s.length == 2) {
-        
-        setLocation({ lat: +s[0], lng: +s[1] })
-        return
+        setLocation({ lat: +s[0], lng: +s[1] });
+        return;
       }
     }
     navigator.geolocation.getCurrentPosition(
       function (position) {
-        const { latitude, longitude } = position.coords
+        const { latitude, longitude } = position.coords;
         setLocation({
           lat: latitude,
           lng: longitude,
-        })
+        });
       },
       (error) => {
-        setLocationError("Location Error: " + error.message)
-      }
-    )
-  }, [])
+        setLocationError("Location Error: " + error.message);
+      },
+    );
+  }, []);
   useEffect(() => {
     if (location)
       fetch(
         `https://he.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${location.lat}|${location.lng}&gsradius=2000&gslimit=50&format=json&gsprop=type|name&inprop=url&prop=info&origin=*`,
-        {}
+        {},
       )
         .then((y) => y.json())
         .then((y: Result) => {
-          setResult(y.query.geosearch)
+          setResult(y.query.geosearch);
           fetch(
             `https://he.wikipedia.org/w/api.php?action=query&pageids=${y.query.geosearch
               .map((t) => t.pageid)
-              .join("|")}&format=json&prop=description&origin=*`
+              .join("|")}&format=json&prop=description|pageimages&origin=*`,
           )
             .then((y) => y.json())
             .then((y) =>
@@ -48,11 +47,15 @@ function App() {
                 return r.map((r) => ({
                   ...r,
                   description: y.query.pages[r.pageid]?.description,
-                }))
-              })
-            )
-        })
-  }, [location])
+                  mainImage: y.query.pages[r.pageid].thumbnail.source.replace(
+                    "50px",
+                    "300px",
+                  ),
+                }));
+              }),
+            );
+        });
+  }, [location]);
 
   return (
     <div>
@@ -60,7 +63,10 @@ function App() {
         <tbody>
           {result.map((r) => {
             return (
-              <tr key={r.pageid} className="entry">
+              <tr
+                key={r.pageid}
+                className="entry"
+              >
                 <td>
                   <a
                     style={{ fontSize: "x-large" }}
@@ -70,7 +76,23 @@ function App() {
                     {r.title}
                   </a>
                   <div>{r.description}</div>
+                  <div>
+                    <img
+                      src={r.mainImage}
+                      alt="main page image"
+                      className="main-image"
+                    />
+                  </div>
                 </td>
+                {/* <td>
+                  <div>
+                    <img
+                      src={r.mainImage}
+                      alt="main page image"
+                      className="main-image"
+                    />
+                  </div>
+                </td> */}
                 <td
                   style={{
                     alignItems: "middle",
@@ -107,7 +129,7 @@ function App() {
                   <div>{direction(location, r)}</div>
                 </td>
               </tr>
-            )
+            );
           })}
         </tbody>
       </table>
@@ -130,36 +152,37 @@ function App() {
         </a>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
 
 export interface LatLngLocation {
-  lat: number
-  lng: number
+  lat: number;
+  lng: number;
 }
 
 export interface Result {
-  batchcomplete: string
-  query: Query
+  batchcomplete: string;
+  query: Query;
 }
 
 export interface Query {
-  geosearch: Geosearch[]
+  geosearch: Geosearch[];
 }
 
 export interface Geosearch {
-  pageid: number
-  ns: number
-  title: string
-  lat: number
-  lon: number
-  dist: number
-  primary: string
-  type: Type | null
-  name: string
-  description?: string
+  pageid: number;
+  ns: number;
+  title: string;
+  lat: number;
+  lon: number;
+  dist: number;
+  primary: string;
+  type: Type | null;
+  name: string;
+  mainImage: string;
+  description?: string;
 }
 
 export enum Type {
@@ -168,7 +191,7 @@ export enum Type {
 function direction(location: LatLngLocation | undefined, r: Geosearch) {
   let degrees =
     (Math.atan2(location!.lng - r.lon, location!.lat - r.lat) * 180) / Math.PI +
-    180
+    180;
   // Define array of directions
   let directions = [
     "צפון",
@@ -179,15 +202,15 @@ function direction(location: LatLngLocation | undefined, r: Geosearch) {
     "דר-מע",
     "מערב",
     "צפ-מז",
-  ]
+  ];
 
   // Split into the 8 directions
-  degrees = (degrees * 8) / 360
+  degrees = (degrees * 8) / 360;
 
   // round to nearest integer.
-  degrees = Math.round(degrees)
+  degrees = Math.round(degrees);
 
   // Ensure it's within 0-7
-  degrees = (degrees + 8) % 8
-  return directions[degrees]
+  degrees = (degrees + 8) % 8;
+  return directions[degrees];
 }
