@@ -24,7 +24,9 @@ function App() {
       },
       (error) => {
         setLocationError("Location Error: " + error.message);
+
       },
+
     );
   }, []);
   useEffect(() => {
