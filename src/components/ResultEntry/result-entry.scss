@@ -6,20 +6,27 @@
     padding: 4px;
     gap: 16px;
     &__link {
-      font-size: "x-large";
+      font-size: x-large;
     }
     &__image {
       width: 300px;
       border-radius: 20px;
       margin-top: 1rem;
+      @media only screen and (max-width: 768px) {
+        width: 100px;
+        border-radius: 10px;
+        margin-top: 0.5rem;
+      }
     }
     &__google-link {
       width: 32px;
       height: 32px;
     }
     &__distance {
-      white-space: "nowrap" &--text {
-        font-size: "small";
+      white-space: nowrap;
+      font-size: small;
+      &--text {
+        font-size: small;
       }
     }
   }

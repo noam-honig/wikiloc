@@ -73,14 +73,6 @@ button:focus-visible {
   }
 }
 
-@media only screen and (max-width: 768px) {
-  .main-image {
-    width: 100px;
-    border-radius: 10px;
-    margin-top: 0.5rem;
-  }
-}
-
 :root div,
 :root div div,
 :root div div table {
