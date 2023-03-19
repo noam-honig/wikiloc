@@ -24,14 +24,16 @@ function App() {
       },
       (error) => {
         setLocationError("Location Error: " + error.message);
-      }
+
+      },
+
     );
   }, []);
   useEffect(() => {
     if (location)
       fetch(
         `https://he.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${location.lat}|${location.lng}&gsradius=2000&gslimit=50&format=json&gsprop=type|name&inprop=url&prop=info&origin=*`,
-        {}
+        {},
       )
         .then((y) => y.json())
         .then((y: Result) => {
@@ -39,7 +41,7 @@ function App() {
           fetch(
             `https://he.wikipedia.org/w/api.php?action=query&pageids=${y.query.geosearch
               .map((t) => t.pageid)
-              .join("|")}&format=json&prop=description&origin=*`
+              .join("|")}&format=json&prop=description|pageimages&origin=*`,
           )
             .then((y) => y.json())
             .then((y) =>
@@ -47,8 +49,11 @@ function App() {
                 return r.map((r) => ({
                   ...r,
                   description: y.query.pages[r.pageid]?.description,
+                  mainImage: y.query.pages[
+                    r.pageid
+                  ]?.thumbnail?.source?.replace("50px", "300px"),
                 }));
-              })
+              }),
             );
         });
   }, [location]);
@@ -59,7 +64,10 @@ function App() {
         <tbody>
           {result.map((r) => {
             return (
-              <tr key={r.pageid} className="entry">
+              <tr
+                key={r.pageid}
+                className="entry"
+              >
                 <td>
                   <a
                     style={{ fontSize: "x-large" }}
@@ -69,6 +77,15 @@ function App() {
                     {r.title}
                   </a>
                   <div>{r.description}</div>
+                  <div>
+                    {r.mainImage && (
+                      <img
+                        src={r.mainImage}
+                        alt="main page image"
+                        className="main-image"
+                      />
+                    )}
+                  </div>
                 </td>
                 <td
                   style={{
@@ -158,6 +175,7 @@ export interface Geosearch {
   primary: string;
   type: Type | null;
   name: string;
+  mainImage?: string;
   description?: string;
 }
 
