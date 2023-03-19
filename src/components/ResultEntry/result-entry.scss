@@ -1,0 +1,26 @@
+.ResultEntry {
+  &--main {
+    display: flex;
+    border-bottom: solid 2px lightgrey;
+    justify-content: space-between;
+    padding: 4px;
+    gap: 16px;
+    &__link {
+      font-size: "x-large";
+    }
+    &__image {
+      width: 300px;
+      border-radius: 20px;
+      margin-top: 1rem;
+    }
+    &__google-link {
+      width: 32px;
+      height: 32px;
+    }
+    &__distance {
+      white-space: "nowrap" &--text {
+        font-size: "small";
+      }
+    }
+  }
+}

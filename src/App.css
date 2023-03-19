@@ -1,8 +1,0 @@
-.entry {
-  display: flex;
-  border-bottom: solid 2px lightgrey;
-  justify-content: space-between;
-  padding: 4px;
-  gap: 16px;
-
-}
