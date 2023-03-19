@@ -58,12 +58,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.main-image {
-  width: 300px;
-  border-radius: 20px;
-  margin-top: 1rem;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -1,0 +1,11 @@
+.SourceIcon {
+  &--main {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+    &__icon {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}
