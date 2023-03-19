@@ -10,7 +10,7 @@ const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
   return (
     <tr className="ResultEntry--main">
       <td>
-        <a className="ResultEntry--main__link" href={getResultLink(result)} target="_blank">
+        <a className="ResultEntry--main__link" href={getResultLink(result)} target="_blank" style={{fontSize:'x-large'}}>
           {result?.title}
         </a>
         <div>{result?.description}</div>
