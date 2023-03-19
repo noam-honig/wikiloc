@@ -10,7 +10,7 @@ const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
   return (
     <tr className="ResultEntry--main">
       <td>
-        <a className="ResultEntry--main__link" href={getResultLink(result)} target="_blank" style={{fontSize:'x-large'}}>
+        <a className="ResultEntry--main__link" href={getResultLink(result)} target="_blank" style={{ fontSize: 'x-large' }}>
           {result?.title}
         </a>
         <div>{result?.description}</div>
@@ -27,13 +27,13 @@ const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
           </svg>
         </a>
-        <div className="ResultEntry--main__distance">
+        <div className="ResultEntry--main__distance" style={{ fontSize: 'small', whiteSpace: 'nowrap' }}>
           {(result?.dist / 1000)?.toFixed(1)}{" "}
           <span className={"ResultEntry--main__distance--text"}>
             ק"מ
           </span>
         </div>
-        <div>{direction(location, result)}</div>
+        <div style={{ fontSize: 'small' }}>{direction(location, result)}</div>
       </td>
     </tr>
   );
