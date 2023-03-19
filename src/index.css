@@ -86,3 +86,10 @@ button:focus-visible {
     margin-top: 0.5rem;
   }
 }
+
+:root div,
+:root div div,
+:root div div table {
+  width: 100%;
+  max-width: 768px;
+}

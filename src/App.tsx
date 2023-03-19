@@ -24,16 +24,14 @@ function App() {
       },
       (error) => {
         setLocationError("Location Error: " + error.message);
-
-      },
-
+      }
     );
   }, []);
   useEffect(() => {
     if (location)
       fetch(
         `https://he.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${location.lat}|${location.lng}&gsradius=2000&gslimit=50&format=json&gsprop=type|name&inprop=url&prop=info&origin=*`,
-        {},
+        {}
       )
         .then((y) => y.json())
         .then((y: Result) => {
@@ -41,19 +39,24 @@ function App() {
           fetch(
             `https://he.wikipedia.org/w/api.php?action=query&pageids=${y.query.geosearch
               .map((t) => t.pageid)
-              .join("|")}&format=json&prop=description|pageimages&origin=*`,
+              .join("|")}&format=json&prop=description|pageimages&origin=*`
           )
             .then((y) => y.json())
             .then((y) =>
               setResult((r) => {
-                return r.map((r) => ({
-                  ...r,
-                  description: y.query.pages[r.pageid]?.description,
-                  mainImage: y.query.pages[
+                return r.map((r) => {
+                  let mainImage: string = y.query.pages[
                     r.pageid
-                  ]?.thumbnail?.source?.replace("50px", "300px"),
-                }));
-              }),
+                  ]?.thumbnail?.source?.replace("50px", "300px");
+                  if (mainImage.includes("no_free_image_yet"))
+                    mainImage = undefined!;
+                  return {
+                    ...r,
+                    description: y.query.pages[r.pageid]?.description,
+                    mainImage,
+                  };
+                });
+              })
             );
         });
   }, [location]);
@@ -64,10 +67,7 @@ function App() {
         <tbody>
           {result.map((r) => {
             return (
-              <tr
-                key={r.pageid}
-                className="entry"
-              >
+              <tr key={r.pageid} className="entry">
                 <td>
                   <a
                     style={{ fontSize: "x-large" }}
