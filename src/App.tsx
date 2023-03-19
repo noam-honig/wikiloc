@@ -195,7 +195,7 @@ function direction(location: LatLngLocation | undefined, r: Geosearch) {
     "דרום",
     "דר-מע",
     "מערב",
-    "צפ-מז",
+    "צפ-מע",
   ];
 
   // Split into the 8 directions
