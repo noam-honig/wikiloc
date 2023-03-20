@@ -1,0 +1,48 @@
+.arrow-up {
+  height: 80px;
+  width: 80px;
+  position: fixed;
+  left: 80px;
+  bottom: 10px;
+  cursor: pointer;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  background-color: hsl(0, 0%, 20%);
+}
+
+.show {
+  opacity: 0.4;
+  pointer-events: all;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.show:hover {
+  opacity: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .arrow-up {
+    height: 60px;
+    width: 60px;
+    left: 5px;
+    bottom: 0px;
+  }
+  .show {
+    opacity: 1;
+  }
+}
