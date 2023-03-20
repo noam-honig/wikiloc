@@ -54,17 +54,15 @@ const App = () => {
     <>
       <div>
         {!locationError ? (
-          <table>
-            <tbody>
-              {results.map((result) => (
-                <ResultEntry
-                  key={result.pageid}
-                  result={result}
-                  location={location}
-                />
-              ))}
-            </tbody>
-          </table>
+          <>
+            {results.map((result) => (
+              <ResultEntry
+                key={result.pageid}
+                result={result}
+                location={location}
+              />
+            ))}
+          </>
         ) : (
           <div>Unable to get location - {locationError}</div>
         )}
