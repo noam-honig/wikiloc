@@ -10,6 +10,7 @@ import {
 
 import SourceIcon from "./components/SourceIcon/SourceIcon";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
+import Map from "./components/Map/Map";
 
 import ArrowUp from "./components/ArrowUp/ArrowUp";
 
@@ -18,6 +19,8 @@ const App = () => {
   const [locationError, setLocationError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>([]);
   const [showAddEnglish, setShowAddEnglish] = useState(true);
+  const [showMapView, setShowMapView] = useState(false);
+
   useEffect(() => {
     const search = window.location.search;
     if (search.startsWith("?")) {
@@ -52,26 +55,31 @@ const App = () => {
       <div>
         {!locationError ? (
           <>
-            {results.map((result) => (
-              <ResultEntry
-                key={result.pageid}
-                result={result}
-                location={location}
-              />
-            ))}
+            {showMapView && <Map results={results} location={location} />}
+
+            {!showMapView &&
+              results.map((result) => (
+                <ResultEntry
+                  key={result.pageid}
+                  result={result}
+                  location={location}
+                />
+              ))}
           </>
         ) : (
           <div>Unable to get location - {locationError}</div>
         )}
-        {showAddEnglish && (
-          <div
-            style={{
-              position: "sticky",
-              bottom: 0,
-              display: "flex",
-              placeContent: "center",
-            }}
-          >
+
+        <div
+          style={{
+            position: "sticky",
+            gap: 3,
+            bottom: 0,
+            display: "flex",
+            placeContent: "center",
+          }}
+        >
+          {showAddEnglish && (
             <button
               onClick={() => {
                 getWikipediaResults(location!, setResults, "en");
@@ -81,8 +89,16 @@ const App = () => {
             >
               הוסף תוצאות מויקיפדיה באנגלית
             </button>
-          </div>
-        )}
+          )}
+          <button
+            onClick={() => {
+              setShowMapView((prev) => !prev);
+            }}
+          >
+            {showMapView ? "הצג רשימה" : "הצג מפה"}
+          </button>
+        </div>
+
         <SourceIcon />
       </div>
       <ArrowUp fill="#646cff" />
