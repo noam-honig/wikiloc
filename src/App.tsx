@@ -55,13 +55,16 @@ const App = () => {
       <div>
         {!locationError ? (
           <>
-            {results.map((result) => (
-              <ResultEntry
-                key={result.pageid}
-                result={result}
-                location={location}
-              />
-            ))}
+            {showMapView && <Map results={results} location={location} />}
+
+            {!showMapView &&
+              results.map((result) => (
+                <ResultEntry
+                  key={result.pageid}
+                  result={result}
+                  location={location}
+                />
+              ))}
           </>
         ) : (
           <div>Unable to get location - {locationError}</div>
