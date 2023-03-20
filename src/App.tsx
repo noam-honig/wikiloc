@@ -7,7 +7,7 @@ import {
   getWikipediaInfo,
   getWikipediaResults,
 } from "./utils/utils";
-
+import locIcon from "./assets/location.svg";
 import SourceIcon from "./components/SourceIcon/SourceIcon";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
 import Map from "./components/Map/Map";
@@ -20,6 +20,7 @@ const App = () => {
   const [results, setResults] = useState<Geosearch[]>([]);
   const [showAddEnglish, setShowAddEnglish] = useState(true);
   const [showMapView, setShowMapView] = useState(false);
+  const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
     const search = window.location.search;
@@ -49,61 +50,98 @@ const App = () => {
       getWikipediaResults(location, setResults);
     }
   }, [location]);
-
+  const revealPage = () => setShowPage((prevState) => !prevState);
   return (
     <>
-      <div>
-        {!locationError ? (
-          <>
-            {showMapView && <Map results={results} location={location!} />}
+      {showPage ? (
+        <>
+          <div>
+            {!locationError ? (
+              <>
+                {showMapView && <Map results={results} location={location!} />}
 
-            {!showMapView &&
-              results.map((result) => (
-                <ResultEntry
-                  key={result.pageid}
-                  result={result}
-                  location={location}
-                />
-              ))}
-          </>
-        ) : (
-          <div>Unable to get location - {locationError}</div>
-        )}
+                {!showMapView &&
+                  results.map((result) => (
+                    <ResultEntry
+                      key={result.pageid}
+                      result={result}
+                      location={location}
+                    />
+                  ))}
+              </>
+            ) : (
+              <div>Unable to get location - {locationError}</div>
+            )}
 
-        <div
-          style={{
-            position: "sticky",
-            gap: 3,
-            bottom: 0,
-            display: "flex",
-            placeContent: "center",
-            justifyContent: "space-around",
-            zIndex: 9999,
-          }}
-        >
-          {showAddEnglish && (
-            <button
-              onClick={() => {
-                getWikipediaResults(location!, setResults, "en");
-                window.scrollTo(0, 0);
-                setShowAddEnglish(false);
+            <div
+              style={{
+                position: "sticky",
+                gap: 3,
+                bottom: 0,
+                display: "flex",
+                placeContent: "center",
+                justifyContent: "space-around",
+                zIndex: 9999,
               }}
             >
-              הוסף ויקיפדיה באנגלית
-            </button>
-          )}
-          <button
-            onClick={() => {
-              setShowMapView((prev) => !prev);
+              {showAddEnglish && (
+                <button
+                  onClick={() => {
+                    getWikipediaResults(location!, setResults, "en");
+                    window.scrollTo(0, 0);
+                    setShowAddEnglish(false);
+                  }}
+                >
+                  הוסף ויקיפדיה באנגלית
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  setShowMapView((prev) => !prev);
+                }}
+              >
+                {showMapView ? "רשימה" : "מפה"}
+              </button>
+              <ArrowUp fill="#646cff" />
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <article
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              margin: "48px 0",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              height: "360px",
             }}
           >
-            {showMapView ? "רשימה" : "מפה"}
-          </button>
-          <ArrowUp fill="#646cff" />
-        </div>
-
-        <SourceIcon />
-      </div>
+            <div style={{ display: "flex" }}>
+              <img
+                src={locIcon}
+                alt="icon-loc"
+                style={{ width: "42px", marginLeft: "8px" }}
+              />
+              <h2 style={{ fontSize: "32px" }}>מאמרי ויקיפדיה סביבי</h2>
+            </div>
+            <p style={{ margin: "36px", lineHeight: 1.8 }}>
+              מכירים את זה שאתם בחו"ל עומדים מול פסל ורוצים לקרוא עליו
+              בויקיפדיה? או למצוא מה יש מעניין סביבי?
+              <br /> לחצו על הכפתור הבא ותראו את כל מה שיש לויקיפדיה להציע בשני
+              ק"מ הקרובים.
+            </p>
+            <button
+              onClick={revealPage}
+              style={{ textAlign: "center", backgroundColor: "#5624d0" }}
+            >
+              לחץ כדי לראות מה קורה סביבך
+            </button>
+          </article>
+        </>
+      )}
+      <SourceIcon />
     </>
   );
 };
