@@ -29,5 +29,15 @@
         font-size: small;
       }
     }
+    &__ltr{
+      direction: ltr;
+      width: 100%;
+      display:block
+    }
+    &__data-cell{
+      display:flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
   }
 }

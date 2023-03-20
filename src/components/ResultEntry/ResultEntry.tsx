@@ -10,17 +10,23 @@ type ResultEntryProps = {
 };
 
 const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
+  const style =
+    result.wikiLang != "he" ? { direction: "ltr", width: "100%" } : undefined!;
+
   return (
     <tr className="ResultEntry--main">
-      <td>
+      <td className="ResultEntry--main__data-cell">
         <a
-          className="ResultEntry--main__link"
+          className={
+            "ResultEntry--main__link" +
+            (result.wikiLang !== "he" ? " ResultEntry--main__ltr" : "")
+          }
           href={getResultLink(result)}
           target="_blank"
         >
           {result?.title}
         </a>
-        <div>{result?.description}</div>
+        <div className={(result.wikiLang !== "he" ? " ResultEntry--main__ltr" : "")}>{result?.description}</div>
         <div>
           {result?.mainImage && (
             <img

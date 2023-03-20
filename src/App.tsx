@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { Geosearch, LatLngLocation, Result } from "./utils/types";
 
-import { addDataToResult, getFetchURL, getImagesUrl } from "./utils/utils";
+import {
+  addDataToResult,
+  getFetchURL,
+  getWikipediaInfo,
+  getWikipediaResults,
+} from "./utils/utils";
 
 import SourceIcon from "./components/SourceIcon/SourceIcon";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
@@ -10,6 +15,7 @@ const App = () => {
   const [location, setLocation] = useState<LatLngLocation>();
   const [locationError, setLocationError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>([]);
+  const [showAddEnglish, setShowAddEnglish] = useState(true);
   useEffect(() => {
     const search = window.location.search;
     if (search.startsWith("?")) {
@@ -33,15 +39,10 @@ const App = () => {
     );
   }, []);
   useEffect(() => {
-    if (location && !locationError)
-      fetch(getFetchURL(location), {})
-        .then((y) => y?.json())
-        .then((y: Result) => {
-          setResults(y.query.geosearch);
-          fetch(getImagesUrl(y))
-            .then((y) => y.json())
-            .then((y) => setResults((result) => addDataToResult(result, y)));
-        });
+    if (location && !locationError) {
+      setResults([]);
+      getWikipediaResults(location, setResults);
+    }
   }, [location]);
 
   return (
@@ -50,12 +51,36 @@ const App = () => {
         <table>
           <tbody>
             {results.map((result) => (
-              <ResultEntry key={result.pageid} result={result} location={location} />
+              <ResultEntry
+                key={result.pageid}
+                result={result}
+                location={location}
+              />
             ))}
           </tbody>
         </table>
       ) : (
         <div>Unable to get location - {locationError}</div>
+      )}
+      {showAddEnglish && (
+        <div
+          style={{
+            position: "sticky",
+            bottom: 0,
+            display:'flex',
+            placeContent:'center'
+          }}
+        >
+          <button
+            onClick={() => {
+              getWikipediaResults(location!, setResults, "en");
+              window.scrollTo(0, 0);
+              setShowAddEnglish(false);
+            }}
+          >
+            הוסף תוצאות מויקיפדיה באנגלית
+          </button>
+        </div>
       )}
       <SourceIcon />
     </div>

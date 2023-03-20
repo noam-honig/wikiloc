@@ -25,6 +25,7 @@ export type Geosearch = {
   mainImage?: string;
   mainImageAlt?: string;
   description?: string;
+  wikiLang:string;
 };
 
 export enum Type {
