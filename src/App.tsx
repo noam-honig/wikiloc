@@ -55,7 +55,7 @@ const App = () => {
       <div>
         {!locationError ? (
           <>
-            {showMapView && <Map results={results} location={location} />}
+            {showMapView && <Map results={results} location={location!} />}
 
             {!showMapView &&
               results.map((result) => (
@@ -77,6 +77,8 @@ const App = () => {
             bottom: 0,
             display: "flex",
             placeContent: "center",
+            justifyContent: "space-around",
+            zIndex: 9999,
           }}
         >
           {showAddEnglish && (
@@ -87,7 +89,7 @@ const App = () => {
                 setShowAddEnglish(false);
               }}
             >
-              הוסף תוצאות מויקיפדיה באנגלית
+              הוסף ויקיפדיה באנגלית
             </button>
           )}
           <button
@@ -95,13 +97,13 @@ const App = () => {
               setShowMapView((prev) => !prev);
             }}
           >
-            {showMapView ? "הצג רשימה" : "הצג מפה"}
+            {showMapView ? "רשימה" : "מפה"}
           </button>
         </div>
 
         <SourceIcon />
       </div>
-      <ArrowUp fill="#646cff" />
+      {/* <ArrowUp fill="#646cff" /> */}
     </>
   );
 };

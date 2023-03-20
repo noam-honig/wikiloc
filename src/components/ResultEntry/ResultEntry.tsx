@@ -26,8 +26,7 @@ const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
           </a>
         )}
         <div className="text-part">
-          <div>
-            {" "}
+          <div style={{ flexGrow: 1 }}>
             <a
               className={
                 "ResultEntry--main__link" +

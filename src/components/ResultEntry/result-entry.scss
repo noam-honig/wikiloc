@@ -34,6 +34,8 @@
   .text-part {
     display: flex;
     gap: 4px;
+    width:100%;
+    justify-content: space-between;
 
     padding: 8px;
     box-sizing: border-box;
@@ -43,6 +45,7 @@
     direction: ltr;
     width: 100%;
     display: block;
+    text-align: left;
   }
 
   &--location-area {

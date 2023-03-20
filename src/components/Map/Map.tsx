@@ -14,9 +14,13 @@ const customIcon = new Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
   iconSize: [38, 38],
 });
+const currentLocation = new Icon({
+  iconUrl: "https://maps.google.com/mapfiles/ms/micons/green-dot.png",
+  iconSize: [38, 38],
+});
 
 function Map({ results, location }: MapProps) {
-  if (location === undefined) return;
+  if (location === undefined) return <></>;
 
   return (
     <MapContainer
@@ -29,19 +33,27 @@ function Map({ results, location }: MapProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-      <MarkerClusterGroup chunkedLoading>
+        <Marker
+          position={[location.lat, location.lng]}
+          icon={currentLocation}
+        />
         {results.map((result) => (
-          <Marker key={result.pageid} position={[result.lat, result.lon]} icon={customIcon}>
+          <Marker
+            key={result.pageid}
+            position={[result.lat, result.lon]}
+            icon={customIcon}
+          >
             <Popup>
-              <ResultEntry
-                key={result.pageid}
-                result={result}
-                location={location}
-              />
+              <div style={{ minWidth: "300px",direction:'rtl',textAlign:'right' }}>
+                <ResultEntry
+                  key={result.pageid}
+                  result={result}
+                  location={location}
+                />
+              </div>
             </Popup>
           </Marker>
         ))}
-      </MarkerClusterGroup>
     </MapContainer>
   );
 }
