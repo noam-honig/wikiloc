@@ -21,7 +21,6 @@
   -ms-flex-pack: center;
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
-  background-color: hsl(0, 0%, 20%);
 }
 
 .show {
@@ -42,5 +41,16 @@
   }
   .show {
     opacity: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .arrow-up {
+    background-color: hsl(0, 0%, 20%);
+  }
+}
+@media (prefers-color-scheme: light) {
+  .arrow-up {
+    background-color: hsl(0, 0%, 100%);
   }
 }
