@@ -1,6 +1,6 @@
 .arrow-up {
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
   position: fixed;
   left: 80px;
   bottom: 10px;
@@ -37,8 +37,6 @@
 
 @media screen and (max-width: 768px) {
   .arrow-up {
-    height: 60px;
-    width: 60px;
     left: 5px;
     bottom: 0px;
   }
