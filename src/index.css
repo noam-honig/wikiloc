@@ -79,5 +79,4 @@ button:focus-visible {
 :root div div,
 :root div div table {
   width: 100%;
-  max-width: 768px;
 }
