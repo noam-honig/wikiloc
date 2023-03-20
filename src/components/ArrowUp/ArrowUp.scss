@@ -1,29 +1,15 @@
 .arrow-up {
-  height: 60px;
+  display: block;
   width: 60px;
-  left: 80px;
-  bottom: 10px;
-  cursor: pointer;
+  height: 60px;
+  border-radius: 100px;
   opacity: 0;
-  -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
-  pointer-events: none;
-  z-index: 100;
-  border-radius: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-tap-highlight-color: transparent;
+
 }
 
 .show {
-  opacity: 0.4;
+  opacity: 1;
   pointer-events: all;
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
@@ -33,21 +19,13 @@
   opacity: 1;
 }
 
-@media screen and (max-width: 768px) {
-  .arrow-up {
-    left: 5px;
-    bottom: 0px;
-  }
-  .show {
-    opacity: 1;
-  }
-}
 
 @media (prefers-color-scheme: dark) {
   .arrow-up {
     background-color: hsl(0, 0%, 20%);
   }
 }
+
 @media (prefers-color-scheme: light) {
   .arrow-up {
     background-color: hsl(0, 0%, 100%);

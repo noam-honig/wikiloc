@@ -40,7 +40,7 @@ const App = () => {
       },
       (error) => {
         setLocationError("Location Error: " + error?.message);
-      },
+      }
     );
   }, []);
   useEffect(() => {
@@ -104,7 +104,6 @@ const App = () => {
 
         <SourceIcon />
       </div>
-      
     </>
   );
 };
