@@ -37,7 +37,7 @@ const App = () => {
       },
       (error) => {
         setLocationError("Location Error: " + error?.message);
-      }
+      },
     );
   }, []);
   useEffect(() => {
@@ -70,6 +70,8 @@ const App = () => {
               bottom: 0,
               display: "flex",
               placeContent: "center",
+              margin: "0 auto",
+              width: "60%",
             }}
           >
             <button
