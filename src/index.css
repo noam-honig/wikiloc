@@ -13,10 +13,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
+  
   scroll-behavior: smooth;
 }
-
+#root{
+  width:100%;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -30,8 +32,8 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  min-width: 320px;
   min-height: 100vh;
+  display: flex;
 }
 
 h1 {
@@ -78,5 +80,5 @@ button:focus-visible {
 :root div,
 :root div div,
 :root div div table {
-  width: 100%;
+
 }
