@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Geosearch, LatLngLocation, Result } from "./utils/types";
+import SwipeableViews from "react-swipeable-views";
 
 import { addDataToResult, getFetchURL, getImagesUrl } from "./utils/utils";
 
 import SourceIcon from "./components/SourceIcon/SourceIcon";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
+import MapView from "./components/Map/Map";
+import TabControl from "./components/TabControl/TabControl";
 
 const App = () => {
   const [location, setLocation] = useState<LatLngLocation>();
@@ -44,22 +47,41 @@ const App = () => {
         });
   }, [location]);
 
-  return (
-    <div>
-      {!locationError ? (
-        <table>
-          <tbody>
-            {results.map((result) => (
-              <ResultEntry key={result.pageid} result={result} location={location} />
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div>Unable to get location - {locationError}</div>
-      )}
-      <SourceIcon />
-    </div>
-  );
+  const tabs = [
+    {
+      label: "רשימה",
+      content: (
+        <div>
+          {!locationError ? (
+            <table>
+              <tbody>
+                {results.map((result) => (
+                  <ResultEntry
+                    key={result.pageid}
+                    result={result}
+                    location={location}
+                  />
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div>Unable to get location - {locationError}</div>
+          )}
+          <SourceIcon />
+        </div>
+      ),
+    },
+    {
+      label: "מפה",
+      content: (
+        <div>
+          <MapView results={results} location={location}></MapView>
+        </div>
+      ),
+    },
+  ];
+
+  return <TabControl tabs={tabs} />;
 };
 
 export default App;
