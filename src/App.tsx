@@ -18,6 +18,8 @@ const App = () => {
   const [locationError, setLocationError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>([]);
   const [showAddEnglish, setShowAddEnglish] = useState(true);
+  const [showMapView, setShowMapView] = useState(false);
+
   useEffect(() => {
     const search = window.location.search;
     if (search.startsWith("?")) {
@@ -37,7 +39,7 @@ const App = () => {
       },
       (error) => {
         setLocationError("Location Error: " + error?.message);
-      },
+      }
     );
   }, []);
   useEffect(() => {
@@ -65,15 +67,17 @@ const App = () => {
         ) : (
           <div>Unable to get location - {locationError}</div>
         )}
-        {showAddEnglish && (
-          <div
-            style={{
-              position: "sticky",
-              bottom: 0,
-              display: "flex",
-              placeContent: "center",
-            }}
-          >
+
+        <div
+          style={{
+            position: "sticky",
+            gap: 3,
+            bottom: 0,
+            display: "flex",
+            placeContent: "center",
+          }}
+        >
+          {showAddEnglish && (
             <button
               onClick={() => {
                 getWikipediaResults(location!, setResults, "en");
@@ -83,8 +87,16 @@ const App = () => {
             >
               הוסף תוצאות מויקיפדיה באנגלית
             </button>
-          </div>
-        )}
+          )}
+          <button
+            onClick={() => {
+              setShowMapView(prev=>!prev);
+            }}
+          >
+            {showMapView ? "הצג רשימה" : "הצג מפה"}
+          </button>
+        </div>
+
         <SourceIcon />
       </div>
       <ArrowUp fill="#646cff" />
