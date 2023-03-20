@@ -14,65 +14,79 @@ const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
     result.wikiLang != "he" ? { direction: "ltr", width: "100%" } : undefined!;
 
   return (
-    <tr className="ResultEntry--main">
-      <td className="ResultEntry--main__data-cell">
-        <a
-          className={
-            "ResultEntry--main__link" +
-            (result.wikiLang !== "he" ? " ResultEntry--main__ltr" : "")
-          }
-          href={getResultLink(result)}
-          target="_blank"
-        >
-          {result?.title}
-        </a>
-        <div className={(result.wikiLang !== "he" ? " ResultEntry--main__ltr" : "")}>{result?.description}</div>
-        <div>
-          {result?.mainImage && (
+    <div className={"NewResultEntry" + (result.mainImage ? " has-image" : "")}>
+      <div>
+        {result?.mainImage && (
+          <a href={getResultLink(result)} target="_blank">
             <img
               src={result?.mainImage}
               alt={result?.mainImageAlt}
               className="ResultEntry--main__image"
             />
-          )}
+          </a>
+        )}
+        <div className="text-part">
+          <div>
+            {" "}
+            <a
+              className={
+                "ResultEntry--main__link" +
+                (result.wikiLang !== "he" ? " NewResultEntry__ltr" : "")
+              }
+              href={getResultLink(result)}
+              target="_blank"
+            >
+              {result?.title}
+            </a>
+            <div
+              className={result.wikiLang !== "he" ? " NewResultEntry__ltr" : ""}
+            >
+              {result?.description}
+            </div>
+            {result.wikiLang !== "he" && (
+              <div>
+                <a href={"https://translate.google.com/translate?js=n&sl=en&tl=he&u="+getResultLink(result)} target="_blank">
+                  תרגום של גוגל
+                </a>
+              </div>
+            )}
+          </div>
+          <div className="NewResultEntry--location-area">
+            <a
+              href={getGoogleMapLink(result)}
+              target="_blank"
+              className={"google-link"}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                />
+              </svg>
+            </a>
+            <div className="ResultEntry--main__distance">
+              {(result?.dist / 1000)?.toFixed(1)}{" "}
+              <span className={"ResultEntry--main__distance--text"}>ק"מ</span>
+            </div>
+            <div style={{ fontSize: "small" }}>
+              {direction(location, result)}
+            </div>
+          </div>
         </div>
-      </td>
-      <td
-        style={{
-          alignItems: "middle",
-        }}
-      >
-        <a
-          href={getGoogleMapLink(result)}
-          target="_blank"
-          className={"ResultEntry--main__google-link"}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-            />
-          </svg>
-        </a>
-        <div className="ResultEntry--main__distance">
-          {(result?.dist / 1000)?.toFixed(1)}{" "}
-          <span className={"ResultEntry--main__distance--text"}>ק"מ</span>
-        </div>
-        <div style={{ fontSize: "small" }}>{direction(location, result)}</div>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };
 
