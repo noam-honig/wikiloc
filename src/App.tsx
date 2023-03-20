@@ -51,36 +51,36 @@ const App = () => {
       label: "רשימה",
       content: (
         <div>
-          {!locationError ? (
-            <table>
-              <tbody>
-                {results.map((result) => (
-                  <ResultEntry
-                    key={result.pageid}
-                    result={result}
-                    location={location}
-                  />
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div>Unable to get location - {locationError}</div>
-          )}
-          <SourceIcon />
+          <table>
+            <tbody>
+              {results.map((result) => (
+                <ResultEntry
+                  key={result.pageid}
+                  result={result}
+                  location={location}
+                />
+              ))}
+            </tbody>
+          </table>
         </div>
       ),
     },
     {
       label: "מפה",
-      content: (
-        <div>
-          <MapView results={results} location={location}></MapView>
-        </div>
-      ),
+      content: <MapView results={results} location={location}></MapView>,
     },
   ];
 
-  return <TabControl tabs={tabs} />;
+  return (
+    <div>
+      {!locationError ? (
+        <TabControl tabs={tabs} />
+      ) : (
+        <div>Unable to get location - {locationError}</div>
+      )}
+      <SourceIcon />
+    </div>
+  );
 };
 
 export default App;
