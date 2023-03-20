@@ -31,22 +31,18 @@
 }
 
 .NewResultEntry {
-  &--main {}
-
   .text-part {
     display: flex;
     gap: 4px;
 
-
     padding: 8px;
     box-sizing: border-box;
-
   }
 
   &__ltr {
     direction: ltr;
     width: 100%;
-    display: block
+    display: block;
   }
 
   &--location-area {
@@ -55,8 +51,6 @@
     flex-direction: column;
     max-width: 48px !important;
   }
-
-
 }
 
 .has-image {
@@ -69,14 +63,13 @@
   .text-part {
     color: white;
     position: absolute;
-    top: 0;
-    background-color: rgba(1, 1, 1, 0.5);
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9));
 
     a {
       color: white;
     }
   }
-
 
   .google-link {
     color: white;

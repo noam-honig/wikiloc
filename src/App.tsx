@@ -11,6 +11,8 @@ import {
 import SourceIcon from "./components/SourceIcon/SourceIcon";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
 
+import ArrowUp from "./components/ArrowUp/ArrowUp";
+
 const App = () => {
   const [location, setLocation] = useState<LatLngLocation>();
   const [locationError, setLocationError] = useState<string>();
@@ -46,42 +48,45 @@ const App = () => {
   }, [location]);
 
   return (
-    <div>
-      {!locationError ? (
-        <>
-          {results.map((result) => (
-            <ResultEntry
-              key={result.pageid}
-              result={result}
-              location={location}
-            />
-          ))}
-        </>
-      ) : (
-        <div>Unable to get location - {locationError}</div>
-      )}
-      {showAddEnglish && (
-        <div
-          style={{
-            position: "sticky",
-            bottom: 0,
-            display: "flex",
-            placeContent: "center",
-          }}
-        >
-          <button
-            onClick={() => {
-              getWikipediaResults(location!, setResults, "en");
-              window.scrollTo(0, 0);
-              setShowAddEnglish(false);
+    <>
+      <div>
+        {!locationError ? (
+          <>
+            {results.map((result) => (
+              <ResultEntry
+                key={result.pageid}
+                result={result}
+                location={location}
+              />
+            ))}
+          </>
+        ) : (
+          <div>Unable to get location - {locationError}</div>
+        )}
+        {showAddEnglish && (
+          <div
+            style={{
+              position: "sticky",
+              bottom: 0,
+              display: "flex",
+              placeContent: "center",
             }}
           >
-            הוסף תוצאות מויקיפדיה באנגלית
-          </button>
-        </div>
-      )}
-      <SourceIcon />
-    </div>
+            <button
+              onClick={() => {
+                getWikipediaResults(location!, setResults, "en");
+                window.scrollTo(0, 0);
+                setShowAddEnglish(false);
+              }}
+            >
+              הוסף תוצאות מויקיפדיה באנגלית
+            </button>
+          </div>
+        )}
+        <SourceIcon />
+      </div>
+      <ArrowUp fill="#646cff" />
+    </>
   );
 };
 
