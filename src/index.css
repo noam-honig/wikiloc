@@ -32,6 +32,7 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
+  z-index: 10;
 }
 
 h1 {
