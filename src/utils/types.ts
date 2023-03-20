@@ -23,6 +23,7 @@ export type Geosearch = {
   type: Type | null;
   name: string;
   mainImage?: string;
+  mainImageAlt?: string;
   description?: string;
 };
 
