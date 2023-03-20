@@ -40,7 +40,7 @@ const App = () => {
       },
       (error) => {
         setLocationError("Location Error: " + error?.message);
-      }
+      },
     );
   }, []);
   useEffect(() => {
@@ -99,11 +99,12 @@ const App = () => {
           >
             {showMapView ? "רשימה" : "מפה"}
           </button>
+          <ArrowUp fill="#646cff" />
         </div>
 
         <SourceIcon />
       </div>
-      {/* <ArrowUp fill="#646cff" /> */}
+      
     </>
   );
 };

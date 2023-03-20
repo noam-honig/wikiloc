@@ -3,7 +3,7 @@ import { Geosearch, LatLngLocation, Result } from "./types";
 
 export const direction = (
   location: LatLngLocation | undefined,
-  r: Geosearch
+  r: Geosearch,
 ) => {
   let degrees =
     (Math.atan2(location!.lng - r.lon, location!.lat - r.lat) * 180) / Math.PI +
@@ -22,7 +22,7 @@ export const direction = (
 
 export const getFetchURL = (
   location: LatLngLocation,
-  wikiLang: string
+  wikiLang: string,
 ): string => {
   return `https://${wikiLang}.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${location?.lat}|${location?.lng}&gsradius=2000&gslimit=50&format=json&gsprop=type|name&inprop=url&prop=info&origin=*`;
 };
@@ -30,13 +30,13 @@ export const getFetchURL = (
 export const addDataToResult = (
   results: Geosearch[],
   y: any,
-  wikiLang: string
+  wikiLang: string,
 ) => {
   return results.map((result) => {
     if (result.wikiLang === wikiLang) {
       const mainImage: string = y?.query?.pages[
         result.pageid
-      ]?.thumbnail?.source?.replace("50px", "300px");
+      ]?.thumbnail?.source?.replace("50px", "500px");
       const mainImageAlt: string =
         y?.query?.pages[result.pageid]?.pageimage?.split(".")[0];
       return {
@@ -55,7 +55,7 @@ export const addDataToResult = (
 export function getWikipediaResults(
   location: LatLngLocation,
   setResults: (reduce: (orig: Geosearch[]) => Geosearch[]) => void,
-  wikiLang = "he"
+  wikiLang = "he",
 ) {
   fetch(getFetchURL(location, wikiLang), {})
     .then((y) => y?.json())
@@ -65,13 +65,13 @@ export function getWikipediaResults(
           ...orig,
           ...y.query.geosearch.map((g) => ({ ...g, wikiLang })),
         ];
-        r.sort((a,b)=>+a.dist-+b.dist)
+        r.sort((a, b) => +a.dist - +b.dist);
         return r;
       });
       fetch(getWikipediaInfo(y, wikiLang))
         .then((y) => y.json())
         .then((y) =>
-          setResults((result) => addDataToResult(result, y, wikiLang))
+          setResults((result) => addDataToResult(result, y, wikiLang)),
         );
     });
 }
