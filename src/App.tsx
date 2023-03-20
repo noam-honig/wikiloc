@@ -48,17 +48,15 @@ const App = () => {
   return (
     <div>
       {!locationError ? (
-        <table>
-          <tbody>
-            {results.map((result) => (
-              <ResultEntry
-                key={result.pageid}
-                result={result}
-                location={location}
-              />
-            ))}
-          </tbody>
-        </table>
+        <>
+          {results.map((result) => (
+            <ResultEntry
+              key={result.pageid}
+              result={result}
+              location={location}
+            />
+          ))}
+        </>
       ) : (
         <div>Unable to get location - {locationError}</div>
       )}
@@ -67,8 +65,8 @@ const App = () => {
           style={{
             position: "sticky",
             bottom: 0,
-            display:'flex',
-            placeContent:'center'
+            display: "flex",
+            placeContent: "center",
           }}
         >
           <button
