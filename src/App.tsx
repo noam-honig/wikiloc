@@ -5,7 +5,7 @@ import { addDataToResult, getFetchURL, getImagesUrl } from "./utils/utils";
 
 import SourceIcon from "./components/SourceIcon/SourceIcon";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
-import MapView from "./components/Map/Map";
+import Map from "./components/Map/Map";
 import TabControl from "./components/TabControl/TabControl";
 
 const App = () => {
@@ -67,7 +67,7 @@ const App = () => {
     },
     {
       label: "מפה",
-      content: <MapView results={results} location={location}></MapView>,
+      content: <Map results={results} location={location}></Map>,
     },
   ];
 

@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import ResultEntry from "../ResultEntry/ResultEntry";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
-type MapViewProps = {
+type MapProps = {
   results: Geosearch[];
   location: LatLngLocation;
 };
@@ -15,7 +15,7 @@ const customIcon = new Icon({
   iconSize: [38, 38],
 });
 
-function MapView({ results, location }: MapViewProps) {
+function Map({ results, location }: MapProps) {
   if (location === undefined) return;
 
   return (
@@ -46,4 +46,4 @@ function MapView({ results, location }: MapViewProps) {
   );
 }
 
-export default MapView;
+export default Map;
