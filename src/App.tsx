@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Geosearch, LatLngLocation, Result } from "./utils/types";
-import SwipeableViews from "react-swipeable-views";
 
 import { addDataToResult, getFetchURL, getImagesUrl } from "./utils/utils";
 

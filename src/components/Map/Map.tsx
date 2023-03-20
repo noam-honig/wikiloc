@@ -3,6 +3,7 @@ import { Geosearch, LatLngLocation } from "../../utils/types";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import ResultEntry from "../ResultEntry/ResultEntry";
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 type MapViewProps = {
   results: Geosearch[];
@@ -20,7 +21,7 @@ function MapView({ results, location }: MapViewProps) {
   return (
     <MapContainer
       style={{ height: "100vh", width: "100wh" }}
-      center={[location.lng, location.lat]}
+      center={[location.lat, location.lng]}
       zoom={13}
     >
       <TileLayer
@@ -28,17 +29,19 @@ function MapView({ results, location }: MapViewProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-      {results.map((result) => (
-        <Marker position={[result.lon, result.lat]} icon={customIcon}>
-          <Popup>
-            <ResultEntry
-              key={result.pageid}
-              result={result}
-              location={location}
-            />
-          </Popup>
-        </Marker>
-      ))}
+      <MarkerClusterGroup chunkedLoading>
+        {results.map((result) => (
+          <Marker position={[result.lat, result.lon]} icon={customIcon}>
+            <Popup>
+              <ResultEntry
+                key={result.pageid}
+                result={result}
+                location={location}
+              />
+            </Popup>
+          </Marker>
+        ))}
+      </MarkerClusterGroup>
     </MapContainer>
   );
 }
