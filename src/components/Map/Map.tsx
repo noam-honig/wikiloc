@@ -31,7 +31,7 @@ function Map({ results, location }: MapProps) {
 
       <MarkerClusterGroup chunkedLoading>
         {results.map((result) => (
-          <Marker position={[result.lat, result.lon]} icon={customIcon}>
+          <Marker key={result.pageid} position={[result.lat, result.lon]} icon={customIcon}>
             <Popup>
               <ResultEntry
                 key={result.pageid}
