@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
-import { Geosearch, LatLngLocation, Result } from "./utils/types";
+import { Geosearch, LatLngLocation } from "./utils/types";
 
-import {
-  addDataToResult,
-  getFetchURL,
-  getWikipediaInfo,
-  getWikipediaResults,
-} from "./utils/utils";
-import locIcon from "./assets/location.svg";
-import SourceIcon from "./components/SourceIcon/SourceIcon";
+import { getWikipediaResults } from "./utils/utils";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
 import Map from "./components/Map/Map";
 
@@ -128,8 +121,6 @@ const App = () => {
           </button>
         </div>
       )}
-     
-      <SourceIcon />
     </>
   );
 };
