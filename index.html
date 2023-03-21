@@ -70,13 +70,7 @@
   </head>
   <body dir="rtl">
     <div id="fb-root"></div>
-    <script
-      async
-      defer
-      crossorigin="anonymous"
-      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v16.0"
-      nonce="a6It9zoM"
-    ></script>
+
     <h2 id="top-header">
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png"
@@ -93,7 +87,7 @@
     <div id="root"></div>
     <div style="flex-grow: 1"></div>
     <footer>
-      <a  href="https://github.com/noam-honig/wikiloc" class="source">
+      <a href="https://github.com/noam-honig/wikiloc" class="source">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -107,7 +101,7 @@
         קוד המקור
       </a>
       <div
-        className="fb-like"
+        class="fb-like"
         data-href="https://noam-honig.github.io/wikiloc/"
         data-width=""
         data-layout="button_count"
@@ -116,32 +110,41 @@
         data-share="true"
       ></div>
       <a
-        className="twitter-share-button"
-        href="https://noam-honig.github.io/wikiloc/"
+        class="twitter-share-button"
+        href="https://twitter.com/intent/tweet?text=Hello%20world"
+        
       >
-        Tweet
-      </a>
+        Tweet</a
+      >
     </footer>
 
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.twttr = (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0],
+          t = window.twttr || {};
+        if (d.getElementById(id)) return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+
+        t._e = [];
+        t.ready = function (f) {
+          t._e.push(f);
+        };
+
+        return t;
+      })(document, "script", "twitter-wjs");
+    </script>
+    <div id="fb-root"></div>
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v16.0"
+      nonce="f0vVxo4j"
+    ></script>
   </body>
-  <script>
-    window.twttr = (function (d, s, id) {
-      var js,
-        fjs = d.getElementsByTagName(s)[0],
-        t = window.twttr || {};
-      if (d.getElementById(id)) return t;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js, fjs);
-
-      t._e = [];
-      t.ready = function (f) {
-        t._e.push(f);
-      };
-
-      return t;
-    })(document, "script", "twitter-wjs");
-  </script>
 </html>
