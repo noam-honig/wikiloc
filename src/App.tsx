@@ -68,7 +68,8 @@ const App = () => {
         setLocationError("Location Error: " + error?.message);
       }
     );
-  }, []);
+  };
+
   useEffect(() => {
     if (location && !locationError) {
       setResults([]);
