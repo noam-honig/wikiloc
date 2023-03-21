@@ -7,7 +7,7 @@ import {
   getWikipediaInfo,
   getWikipediaResults,
 } from "./utils/utils";
-
+import locIcon from "./assets/location.svg";
 import SourceIcon from "./components/SourceIcon/SourceIcon";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
 import Map from "./components/Map/Map";
@@ -21,6 +21,7 @@ const App = () => {
   const [showAddEnglish, setShowAddEnglish] = useState(true);
   const [showMapView, setShowMapView] = useState(false);
   const [language, setLanguage] = useState("he");
+  const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
     const languageCode = navigator.language.split("-")[0];
@@ -32,6 +33,21 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (location && !locationError) {
+      setResults([]);
+      getWikipediaResults(location, setResults);
+    }
+  }, [location]);
+
+  const revealPage = () => {
+    setShowPage((prevState) => !prevState);
+    document.getElementById("description")?.remove();
+    const header = document.getElementById("top-header");
+
+    if (header) {
+      header.className = "smaller-header";
+    }
+
     const search = window.location.search;
     if (search.startsWith("?")) {
       const s = decodeURI(search.substring(1)).split(",");
@@ -58,62 +74,79 @@ const App = () => {
       setResults([]);
       getWikipediaResults(location, setResults, language);
     }
-  }, [location]);
-
+  }, [location, language]);
   return (
     <>
-      <div>
-        {!locationError ? (
-          <>
-            {showMapView && <Map results={results} location={location!} />}
+      {showPage ? (
+        <>
+          <div>
+            {!locationError ? (
+              <>
+                {showMapView && <Map results={results} location={location!} />}
 
-            {!showMapView &&
-              results.map((result) => (
-                <ResultEntry
-                  key={result.pageid}
-                  result={result}
-                  location={location}
-                />
-              ))}
-          </>
-        ) : (
-          <div>Unable to get location - {locationError}</div>
-        )}
+                {!showMapView &&
+                  results.map((result) => (
+                    <ResultEntry
+                      key={result.pageid}
+                      result={result}
+                      location={location}
+                    />
+                  ))}
+              </>
+            ) : (
+              <div>Unable to get location - {locationError}</div>
+            )}
 
-        <div
-          style={{
-            position: "sticky",
-            gap: 3,
-            bottom: 0,
-            display: "flex",
-            placeContent: "center",
-            justifyContent: "space-around",
-            zIndex: 9999,
-          }}
-        >
-          {showAddEnglish && (
-            <button
-              onClick={() => {
-                getWikipediaResults(location!, setResults, "en");
-                window.scrollTo(0, 0);
-                setShowAddEnglish(false);
+            <div
+              style={{
+                position: "sticky",
+                gap: 3,
+                bottom: 0,
+                display: "flex",
+                placeContent: "center",
+                justifyContent: "space-around",
+                zIndex: 9999,
               }}
             >
-              הוסף ויקיפדיה באנגלית
-            </button>
-          )}
+              {showAddEnglish && (
+                <button
+                  onClick={() => {
+                    getWikipediaResults(location!, setResults, "en");
+                    window.scrollTo(0, 0);
+                    setShowAddEnglish(false);
+                  }}
+                >
+                  הוסף ויקיפדיה באנגלית
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  setShowMapView((prev) => !prev);
+                }}
+              >
+                {showMapView ? "רשימה" : "מפה"}
+              </button>
+              {!showMapView && <ArrowUp fill="#646cff" />}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div style={{ display: "flex", placeContent: "center" }}>
           <button
-            onClick={() => {
-              setShowMapView((prev) => !prev);
+            onClick={revealPage}
+            style={{
+              textAlign: "center",
+              backgroundColor: "#535bf2",
+              color: "white",
+              marginBottom: "30px",
             }}
           >
-            {showMapView ? "רשימה" : "מפה"}
+            לחץ/י כדי לראות מה קורה סביבך
           </button>
-          <ArrowUp fill="#646cff" />
         </div>
-
-        <SourceIcon />
-      </div>
+      )}
+     
+      <SourceIcon />
     </>
   );
 };
