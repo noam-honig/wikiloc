@@ -23,6 +23,20 @@ const App = () => {
   const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
+    if (location && !locationError) {
+      setResults([]);
+      getWikipediaResults(location, setResults);
+    }
+  }, [location]);
+  const revealPage = () => {
+    setShowPage((prevState) => !prevState);
+    document.getElementById("description")?.remove();
+    const header = document.getElementById("top-header");
+
+    if (header) {
+      header.className = "smaller-header";
+    }
+
     const search = window.location.search;
     if (search.startsWith("?")) {
       const s = decodeURI(search.substring(1)).split(",");
@@ -43,14 +57,7 @@ const App = () => {
         setLocationError("Location Error: " + error?.message);
       }
     );
-  }, []);
-  useEffect(() => {
-    if (location && !locationError) {
-      setResults([]);
-      getWikipediaResults(location, setResults);
-    }
-  }, [location]);
-  const revealPage = () => setShowPage((prevState) => !prevState);
+  };
   return (
     <>
       {showPage ? (
@@ -102,44 +109,24 @@ const App = () => {
               >
                 {showMapView ? "רשימה" : "מפה"}
               </button>
-              <ArrowUp fill="#646cff" />
+              {!showMapView && <ArrowUp fill="#646cff" />}
             </div>
           </div>
         </>
       ) : (
-        <>
-          <article
+        <div style={{ display: "flex", placeContent: "center" }}>
+          <button
+            onClick={revealPage}
             style={{
-              display: "flex",
-              flexDirection: "column",
-              margin: "48px 0",
-              alignItems: "center",
-              justifyContent: "space-evenly",
-              height: "360px",
+              textAlign: "center",
+              backgroundColor: "#535bf2",
+              color: "white",
+              marginBottom: "30px",
             }}
           >
-            <div style={{ display: "flex" }}>
-              <img
-                src={locIcon}
-                alt="icon-loc"
-                style={{ width: "42px", marginLeft: "8px" }}
-              />
-              <h2 style={{ fontSize: "32px" }}>מאמרי ויקיפדיה סביבי</h2>
-            </div>
-            <p style={{ margin: "36px", lineHeight: 1.8 }}>
-              מכירים את זה שאתם בחו"ל עומדים מול פסל ורוצים לקרוא עליו
-              בויקיפדיה? או למצוא מה יש מעניין סביבי?
-              <br /> לחצו על הכפתור הבא ותראו את כל מה שיש לויקיפדיה להציע בשני
-              ק"מ הקרובים.
-            </p>
-            <button
-              onClick={revealPage}
-              style={{ textAlign: "center", backgroundColor: "#5624d0" }}
-            >
-              לחץ כדי לראות מה קורה סביבך
-            </button>
-          </article>
-        </>
+            לחץ/י כדי לראות מה קורה סביבך
+          </button>
+        </div>
       )}
       <SourceIcon />
     </>
