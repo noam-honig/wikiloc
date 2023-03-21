@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Geosearch, LatLngLocation } from "../../utils/types";
 import { direction, getGoogleMapLink, getResultLink } from "../../utils/utils";
 
@@ -10,15 +10,15 @@ type ResultEntryProps = {
 };
 
 const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
-  const style =
-    result.wikiLang != "he" ? { direction: "ltr", width: "100%" } : undefined!;
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <div className={"NewResultEntry" + (result.mainImage ? " has-image" : "")}>
+    <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
       <div>
         {result?.mainImage && (
           <a href={getResultLink(result)} target="_blank">
             <img
+              onLoad={() => setImageLoaded(true)}
               src={result?.mainImage}
               alt={result?.mainImageAlt}
               className="ResultEntry--main__image"
