@@ -89,7 +89,7 @@ const App = () => {
                 setShowAddEnglish(false);
               }}
             >
-              הוסף ויקיפדיה באנגלית
+              להוסיף ויקיפדיה באנגלית
             </button>
           )}
           <button
