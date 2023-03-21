@@ -20,6 +20,16 @@ const App = () => {
   const [results, setResults] = useState<Geosearch[]>([]);
   const [showAddEnglish, setShowAddEnglish] = useState(true);
   const [showMapView, setShowMapView] = useState(false);
+  const [language, setLanguage] = useState("he");
+
+  useEffect(() => {
+    const languageCode = navigator.language.split("-")[0];
+    if (/^[a-z]{2}$/i.test(languageCode)) {
+      setLanguage(languageCode);
+    } else {
+      console.error("Filed to detect user language")
+    }
+  }, []);
 
   useEffect(() => {
     const search = window.location.search;
@@ -46,7 +56,7 @@ const App = () => {
   useEffect(() => {
     if (location && !locationError) {
       setResults([]);
-      getWikipediaResults(location, setResults);
+      getWikipediaResults(location, setResults, language);
     }
   }, [location]);
 
