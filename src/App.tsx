@@ -9,16 +9,17 @@ import ArrowUp from "./components/ArrowUp/ArrowUp";
 
 const App = () => {
   const [location, setLocation] = useState<LatLngLocation>();
+  const [radius, setRadius] = useState(2000);
   const [locationError, setLocationError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>([]);
-  const [showAddEnglish, setShowAddEnglish] = useState(true);
+  const [loadedEnglish, setLoadedEnglish] = useState(false);
   const [showMapView, setShowMapView] = useState(false);
   const [showPage, setShowPage] = useState(false);
 
   useEffect(() => {
     if (location && !locationError) {
       setResults([]);
-      getWikipediaResults(location, setResults);
+      getWikipediaResults(location, setResults, radius);
     }
   }, [location]);
   const revealPage = () => {
@@ -63,7 +64,7 @@ const App = () => {
                 {!showMapView &&
                   results.map((result) => (
                     <ResultEntry
-                      key={result.pageid}
+                      key={result.pageid+result.wikiLang}
                       result={result}
                       location={location}
                     />
@@ -84,15 +85,22 @@ const App = () => {
                 zIndex: 9999,
               }}
             >
-              {showAddEnglish && (
+              {radius<5000 && (
                 <button
                   onClick={() => {
-                    getWikipediaResults(location!, setResults, "en");
-                    window.scrollTo(0, 0);
-                    setShowAddEnglish(false);
+                    let rad = radius;
+                    if (!loadedEnglish) {
+                      window.scrollTo(0, 0);
+                      setLoadedEnglish(true);
+                    } else {
+                      rad *= 2;
+                      setRadius(rad);
+                      getWikipediaResults(location!, setResults, rad);
+                    }
+                    getWikipediaResults(location!, setResults, rad, "en");
                   }}
                 >
-                  להוסיף ויקיפדיה באנגלית
+                  עוד תוצאות
                 </button>
               )}
               <button
@@ -117,7 +125,7 @@ const App = () => {
               marginBottom: "30px",
             }}
           >
-            לחץ/י כדי לראות מה קורה סביבך
+            לחצו כדי לראות מה קורה סביבכם
           </button>
         </div>
       )}
