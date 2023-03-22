@@ -13,10 +13,17 @@ const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
+    <div
+      className={
+        "NewResultEntry" + " wrapper" + (imageLoaded ? " has-image" : "")
+      }
+    >
       <div>
         {result?.mainImage && (
-          <a href={getResultLink(result)} target="_blank">
+          <a
+            href={getResultLink(result)}
+            target="_blank"
+          >
             <img
               onLoad={() => setImageLoaded(true)}
               src={result?.mainImage}

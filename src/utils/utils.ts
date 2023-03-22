@@ -52,27 +52,15 @@ export const addDataToResult = (
   });
 };
 
-export function getWikipediaResults(
-  location: LatLngLocation,
-  setResults: (reduce: (orig: Geosearch[]) => Geosearch[]) => void,
-  wikiLang = "he",
-) {
-  fetch(getFetchURL(location, wikiLang), {})
+export function getWikipediaResults(location: LatLngLocation, wikiLang = "he") {
+  return fetch(getFetchURL(location, wikiLang), {})
     .then((y) => y?.json())
     .then((y: Result) => {
-      setResults((orig) => {
-        const r = [
-          ...orig,
-          ...y.query.geosearch.map((g) => ({ ...g, wikiLang })),
-        ];
-        r.sort((a, b) => +a.dist - +b.dist);
-        return r;
-      });
-      fetch(getWikipediaInfo(y, wikiLang))
+      const r = [...y.query.geosearch.map((g) => ({ ...g, wikiLang }))];
+      r.sort((a, b) => +a.dist - +b.dist);
+      return fetch(getWikipediaInfo(y, wikiLang))
         .then((y) => y.json())
-        .then((y) =>
-          setResults((result) => addDataToResult(result, y, wikiLang)),
-        );
+        .then((y) => addDataToResult(r, y, wikiLang));
     });
 }
 

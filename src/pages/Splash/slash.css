@@ -1,0 +1,25 @@
+#top-header {
+  font-size: 32px;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  gap: 8px;
+  color: #646cff;
+}
+#top-header img {
+  height: 36px;
+}
+.smaller-header {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-bottom: solid 1px lightgray;
+}
+.top-icon {
+  color: #646cff;
+  width: 42px;
+}
+#description {
+  align-self: center;
+  margin: 36px;
+  line-height: 1.8;
+}

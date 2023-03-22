@@ -34,10 +34,10 @@
   .text-part {
     display: flex;
     gap: 4px;
-    width:100%;
+    width: 100%;
     justify-content: space-between;
 
-    padding: 8px;
+    padding: 8px 30px;
     box-sizing: border-box;
   }
 
@@ -56,6 +56,15 @@
   }
 }
 
+.wrapper {
+  width: calc(100% - 40px);
+  margin: 1rem auto;
+  box-sizing: border-box;
+  border: 1px solid white;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
 .has-image {
   position: relative;
 
@@ -67,7 +76,7 @@
     color: white;
     position: absolute;
     bottom: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9));
+    background: linear-gradient(rgb(0 0 0), rgb(0 0 0 / 55%));
 
     a {
       color: white;

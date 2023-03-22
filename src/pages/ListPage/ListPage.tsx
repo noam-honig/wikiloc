@@ -1,41 +1,75 @@
-import { useEffect, useState } from "react";
-import { Geosearch, LatLngLocation } from "./utils/types";
+import { useEffect, useState, SVGProps } from "react";
+import { Geosearch, LatLngLocation } from "../../utils/types";
 
-import { getWikipediaResults } from "./utils/utils";
-import ResultEntry from "./components/ResultEntry/ResultEntry";
-import Map from "./components/Map/Map";
+import { getWikipediaResults } from "../../utils/utils";
+import ResultEntry from "../../components/ResultEntry/ResultEntry";
 
-import ArrowUp from "./components/ArrowUp/ArrowUp";
+import Map from "../../components/Map/Map";
 
-import { Routes, Route } from "react-router-dom";
+import "./listPage.css";
+import Spinner from "../../components/Spinner/Spinner";
 
-import Splash from "./pages/Splash/Splash";
-import ListPage from "./pages/ListPage/ListPage";
-import MapPage from "./pages/MapPage/MapPage";
-import NavBar from "./components/NavBar/NavBar";
+function ListPage() {
+  const [location, setLocation] = useState<LatLngLocation>();
+  const [locationError, setLocationError] = useState<string>();
+  const [results, setResults] = useState<Geosearch[]>([]);
+  const [showAddEnglish, setShowAddEnglish] = useState(true);
+  const [showMapView, setShowMapView] = useState(false);
+  const [showPage, setShowPage] = useState(false);
 
-const App = () => {
+  //   const locationRef = useRef<LatLngLocation>();
+
+  //   console.log(results);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position?.coords;
+        console.log("Lat-long:", latitude, longitude);
+        setLocation({
+          lat: latitude,
+          lng: longitude,
+        });
+      },
+      (error) => {
+        setLocationError("Location Error: " + error?.message);
+      },
+    );
+  }, []);
+
+  useEffect(() => {
+    if (location && !locationError) {
+      setResults([]);
+      getWikipediaResults(location).then((results) => setResults(results));
+    }
+  }, [location]);
+
   return (
-    <>
-      <NavBar />
-      <Routes>
-        <Route
-          path="wikiloc/"
-          element={<Splash />}
-        />
-        <Route
-          path="wikiloc/list"
-          element={<ListPage />}
-        />
-        <Route
-          path="wikiloc/map"
-          element={<MapPage />}
-        />
-      </Routes>
-    </>
+    <div>
+      {results.length === 0 ? (
+        <div className="list-page-spinner">
+          <Spinner />
+        </div>
+      ) : !locationError ? (
+        <>
+          {results.map((result) => (
+            <ResultEntry
+              key={result.pageid}
+              result={result}
+              location={location}
+            />
+          ))}
+        </>
+      ) : (
+        <div>Unable to get location - {locationError}</div>
+      )}
+    </div>
   );
-};
-export default App;
+}
+
+export default ListPage;
+
+// import ArrowUp from "./components/ArrowUp/ArrowUp";
 
 // const [location, setLocation] = useState<LatLngLocation>();
 // const [locationError, setLocationError] = useState<string>();
@@ -147,3 +181,6 @@ export default App;
 //     )}
 //   </>
 // );
+// };
+
+// export default App;

@@ -1,6 +1,4 @@
 :root {
-
-
   line-height: 1.5;
   font-weight: 400;
 
@@ -15,6 +13,14 @@
   -webkit-text-size-adjust: 100%;
 
   scroll-behavior: smooth;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  margin: 0;
 }
 
 #root {
@@ -30,7 +36,6 @@ a {
 a:hover {
   color: #535bf2;
 }
-
 
 h1 {
   font-size: 3.2em;
@@ -56,6 +61,21 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+footer {
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+  place-items: center;
+  padding: 8px;
+  padding-bottom: 4px;
+  gap: 4px;
+}
+footer .source {
+  transform: translateY(-3px);
+  display: flex;
+  gap: 4px;
 }
 
 @media (prefers-color-scheme: light) {

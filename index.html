@@ -2,10 +2,20 @@
 <html lang="he">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/vite.svg"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>ויקיפדיה סביבי</title>
-    <meta property="og:title" content="ויקיפדיה סביב המיקום הנוכחי" />
+    <meta
+      property="og:title"
+      content="ויקיפדיה סביב המיקום הנוכחי"
+    />
     <meta
       name="description"
       property="og:description"
@@ -17,13 +27,13 @@
       content="https://noam-honig.github.io/wikiloc/social-image.png"
     />
 
-    <style>
+    <!-- <style>
       :root {
         font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
       }
       body {
         display: flex;
-        min-height: 100dvh;
+        min-height: 100vh;
         flex-direction: column;
         margin: 0;
       }
@@ -66,7 +76,7 @@
         display: flex;
         gap: 4px;
       }
-    </style>
+    </style> -->
   </head>
   <body dir="rtl">
     <div id="fb-root"></div>
@@ -77,23 +87,14 @@
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v16.0"
       nonce="a6It9zoM"
     ></script>
-    <h2 id="top-header">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png"
-        alt="wikipedia"
-      />
-      ויקיפדיה סביבי
-    </h2>
-    <p id="description">
-      מכירים את זה שאתם בחו"ל, עומדים מול פסל ורוצים לקרוא עליו בויקיפדיה? או
-      למצוא מה יש מעניין סביבכם?
-      <br />
-      לחצו על הכפתור הבא ותראו את כל מה שיש לויקיפדיה להציע בשני הק"מ הקרובים
-    </p>
+
     <div id="root"></div>
     <div style="flex-grow: 1"></div>
     <footer>
-      <a  href="https://github.com/noam-honig/wikiloc" class="source">
+      <a
+        href="https://github.com/noam-honig/wikiloc"
+        class="source"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -123,7 +124,10 @@
       </a>
     </footer>
 
-    <script type="module" src="/src/main.tsx"></script>
+    <script
+      type="module"
+      src="/src/main.tsx"
+    ></script>
   </body>
   <script>
     window.twttr = (function (d, s, id) {
