@@ -64,7 +64,7 @@ const App = () => {
                 {!showMapView &&
                   results.map((result) => (
                     <ResultEntry
-                      key={result.pageid+result.wikiLang}
+                      key={result.pageid + result.wikiLang}
                       result={result}
                       location={location}
                     />
@@ -85,10 +85,11 @@ const App = () => {
                 zIndex: 9999,
               }}
             >
-              {radius<5000 && (
+              {radius < 10000 && (
                 <button
                   onClick={() => {
                     let rad = radius;
+                    if (rad > 10000) rad = 10000;
                     if (!loadedEnglish) {
                       window.scrollTo(0, 0);
                       setLoadedEnglish(true);
