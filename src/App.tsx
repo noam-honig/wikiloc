@@ -50,7 +50,7 @@ const App = () => {
       },
       (error) => {
         setLocationError("Location Error: " + error?.message);
-      },
+      }
     );
   };
   return (
@@ -64,10 +64,7 @@ const App = () => {
               {!locationError ? (
                 <>
                   {showMapView && (
-                    <Map
-                      results={results}
-                      location={location!}
-                    />
+                    <Map results={results} location={location!} />
                   )}
 
                   {!showMapView &&
@@ -98,12 +95,12 @@ const App = () => {
                   <button
                     onClick={() => {
                       let rad = radius;
-                      if (rad > 10000) rad = 10000;
                       if (!loadedEnglish) {
                         window.scrollTo(0, 0);
                         setLoadedEnglish(true);
                       } else {
                         rad *= 2;
+                        if (rad > 10000) rad = 10000;
                         setRadius(rad);
                         getWikipediaResults(location!, setResults, rad);
                       }
