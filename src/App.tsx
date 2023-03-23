@@ -6,6 +6,7 @@ import ResultEntry from "./components/ResultEntry/ResultEntry";
 import Map from "./components/Map/Map";
 
 import ArrowUp from "./components/ArrowUp/ArrowUp";
+import Spinner from "./components/Spinner/Spinner";
 
 const App = () => {
   const [location, setLocation] = useState<LatLngLocation>();
@@ -49,71 +50,80 @@ const App = () => {
       },
       (error) => {
         setLocationError("Location Error: " + error?.message);
-      }
+      },
     );
   };
   return (
     <>
       {showPage ? (
         <>
-          <div>
-            {!locationError ? (
-              <>
-                {showMapView && <Map results={results} location={location!} />}
-
-                {!showMapView &&
-                  results.map((result) => (
-                    <ResultEntry
-                      key={result.pageid + result.wikiLang}
-                      result={result}
-                      location={location}
+          {results.length === 0 ? (
+            <Spinner />
+          ) : (
+            <div>
+              {!locationError ? (
+                <>
+                  {showMapView && (
+                    <Map
+                      results={results}
+                      location={location!}
                     />
-                  ))}
-              </>
-            ) : (
-              <div>Unable to get location - {locationError}</div>
-            )}
+                  )}
 
-            <div
-              style={{
-                position: "sticky",
-                gap: 3,
-                bottom: 0,
-                display: "flex",
-                placeContent: "center",
-                justifyContent: "space-around",
-                zIndex: 9999,
-              }}
-            >
-              {radius < 10000 && (
-                <button
-                  onClick={() => {
-                    let rad = radius;
-                    if (rad > 10000) rad = 10000;
-                    if (!loadedEnglish) {
-                      window.scrollTo(0, 0);
-                      setLoadedEnglish(true);
-                    } else {
-                      rad *= 2;
-                      setRadius(rad);
-                      getWikipediaResults(location!, setResults, rad);
-                    }
-                    getWikipediaResults(location!, setResults, rad, "en");
-                  }}
-                >
-                  עוד תוצאות
-                </button>
+                  {!showMapView &&
+                    results.map((result) => (
+                      <ResultEntry
+                        key={result.pageid + result.wikiLang}
+                        result={result}
+                        location={location}
+                      />
+                    ))}
+                </>
+              ) : (
+                <div>Unable to get location - {locationError}</div>
               )}
-              <button
-                onClick={() => {
-                  setShowMapView((prev) => !prev);
+
+              <div
+                style={{
+                  position: "sticky",
+                  gap: 3,
+                  bottom: 0,
+                  display: "flex",
+                  placeContent: "center",
+                  justifyContent: "space-around",
+                  zIndex: 9999,
                 }}
               >
-                {showMapView ? "רשימה" : "מפה"}
-              </button>
-              {!showMapView && <ArrowUp fill="#646cff" />}
+                {radius < 10000 && (
+                  <button
+                    onClick={() => {
+                      let rad = radius;
+                      if (rad > 10000) rad = 10000;
+                      if (!loadedEnglish) {
+                        window.scrollTo(0, 0);
+                        setLoadedEnglish(true);
+                      } else {
+                        rad *= 2;
+                        setRadius(rad);
+                        getWikipediaResults(location!, setResults, rad);
+                      }
+                      getWikipediaResults(location!, setResults, rad, "en");
+                    }}
+                  >
+                    עוד תוצאות
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    setShowMapView((prev) => !prev);
+                  }}
+                >
+                  {showMapView ? "רשימה" : "מפה"}
+                </button>
+                {!showMapView && <ArrowUp fill="#646cff" />}
+              </div>
             </div>
-          </div>
+          )}
         </>
       ) : (
         <div style={{ display: "flex", placeContent: "center" }}>
