@@ -19,7 +19,7 @@ const App = () => {
     <>
       <PageLayout>
         <>
-          <NavBar />
+          {/* <NavBar /> */}
           <Routes>
             <Route
               path="wikiloc/"

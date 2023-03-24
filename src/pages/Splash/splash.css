@@ -23,3 +23,7 @@
   margin: 36px;
   line-height: 1.8;
 }
+
+.splash-page {
+  flex: 1;
+}

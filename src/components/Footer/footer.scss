@@ -1,13 +1,11 @@
 footer {
   background-color: white;
   display: flex;
-  //   justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  //   place-items: center;
+  justify-content: space-evenly;
   padding: 0 1.5rem;
-  //   padding-bottom: 4px;
-  //   gap: 4px;
+  margin: 0rem auto;
+  padding: 0.8rem 1.8rem 0.2rem 1.8rem;
 }
 footer .source {
   transform: translateY(-3px);
@@ -22,6 +20,6 @@ footer .source {
 }
 
 .twitter-share-button {
-  padding-bottom: 0.5rem;
   margin-right: 0.2rem;
+  margin-bottom: 0.5rem;
 }

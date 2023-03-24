@@ -1,5 +1,4 @@
 .arrow-up {
-  // display: block;
   width: 40px;
   height: 40px;
   border-radius: 100px;
@@ -8,7 +7,7 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  // left: calc(600px - 1rem);
+  z-index: 999;
 }
 
 .show {

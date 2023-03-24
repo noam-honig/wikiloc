@@ -2,4 +2,18 @@
   margin: 0 auto;
   width: 600px;
   position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    width: calc(100% - 5px);
+  }
 }
