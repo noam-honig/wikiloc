@@ -12,7 +12,6 @@ import ListPage from "./pages/ListPage/ListPage";
 import MapPage from "./pages/MapPage/MapPage";
 import NavBar from "./components/NavBar/NavBar";
 import PageLayout from "./Layouts/PageLayout";
-import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
@@ -34,7 +33,6 @@ const App = () => {
               element={<MapPage />}
             />
           </Routes>
-          <Footer />
         </>
       </PageLayout>
     </>

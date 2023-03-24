@@ -1,5 +1,6 @@
 import React from "react";
 import ArrowUp from "../components/ArrowUp/ArrowUp";
+import Footer from "../components/Footer/Footer";
 import "./pageLayout.css";
 
 type Props = {
@@ -18,6 +19,7 @@ function PageLayout({ children }: Props) {
       </h2>
       {children}
       <ArrowUp />
+      <Footer />
     </div>
   );
 }
