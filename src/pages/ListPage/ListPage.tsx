@@ -17,10 +17,6 @@ function ListPage() {
   const [showMapView, setShowMapView] = useState(false);
   const [showPage, setShowPage] = useState(false);
 
-  //   const locationRef = useRef<LatLngLocation>();
-
-  //   console.log(results);
-
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {

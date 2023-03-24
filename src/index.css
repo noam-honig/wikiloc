@@ -14,6 +14,7 @@
 
   scroll-behavior: smooth;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  direction: rtl;
 }
 
 body {
@@ -61,21 +62,6 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-footer {
-  background-color: white;
-  display: flex;
-  justify-content: space-around;
-  place-items: center;
-  padding: 8px;
-  padding-bottom: 4px;
-  gap: 4px;
-}
-footer .source {
-  transform: translateY(-3px);
-  display: flex;
-  gap: 4px;
 }
 
 @media (prefers-color-scheme: light) {
