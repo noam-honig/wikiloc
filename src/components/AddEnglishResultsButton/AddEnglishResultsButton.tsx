@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { UtilsContext } from "../../context/utilsContext";
+import "./AddEnglishResultsButton.scss";
 
 function AddEnglishResultsButton() {
   const { setLanguage } = useContext(UtilsContext);
@@ -8,6 +9,7 @@ function AddEnglishResultsButton() {
     <>
       {isShowing && (
         <button
+          className="lang-btn"
           onClick={() => {
             setLanguage("en");
             setIsShowing(false);
