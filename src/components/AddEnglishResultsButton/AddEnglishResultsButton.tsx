@@ -1,18 +1,23 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { UtilsContext } from "../../context/utilsContext";
 
 function AddEnglishResultsButton() {
   const { setLanguage } = useContext(UtilsContext);
+  const [isShowing, setIsShowing] = useState<boolean>(true);
   return (
-    <button
-      onClick={() => {
-        setLanguage("en");
-        window.scrollTo(0, 0);
-        // setShowAddEnglish(false);
-      }}
-    >
-      להוסיף ויקיפדיה באנגלית
-    </button>
+    <>
+      {isShowing && (
+        <button
+          onClick={() => {
+            setLanguage("en");
+            setIsShowing(false);
+            window.scrollTo(0, 0);
+          }}
+        >
+          להוסיף ויקיפדיה באנגלית
+        </button>
+      )}
+    </>
   );
 }
 
