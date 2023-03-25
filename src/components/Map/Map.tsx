@@ -5,6 +5,8 @@ import "leaflet/dist/leaflet.css";
 import ResultEntry from "../ResultEntry/ResultEntry";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
+import "./map.scss";
+
 type MapProps = {
   results: Geosearch[];
   location: LatLngLocation;
@@ -24,7 +26,7 @@ function Map({ results, location }: MapProps) {
 
   return (
     <MapContainer
-      style={{ height: "100vh", width: "100wh" }}
+      className="map-box"
       center={[location.lat, location.lng]}
       zoom={13}
     >
