@@ -13,6 +13,7 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
   const [radius, setRadius] = useState(2000);
   const [locationError, setLocationError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>([]);
+  const [language, setLanguage] = useState<string>("he");
   // const [loadedEnglish, setLoadedEnglish] = useState(false);
   // const [showMapView, setShowMapView] = useState(false);
   // const [showPage, setShowPage] = useState(false);
@@ -89,9 +90,9 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
   useEffect(() => {
     if (location && !locationError) {
       setResults([]);
-      getWikipediaResults(location, setResults, radius, "he");
+      getWikipediaResults(location, setResults, radius, language);
     }
-  }, [location]);
+  }, [location, language]);
 
   function getWikipediaResults(
     location: LatLngLocation,
@@ -99,7 +100,7 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
     radius: number,
     wikiLang: string,
   ) {
-    fetch(getFetchURL(location, (wikiLang = "he")), {})
+    fetch(getFetchURL(location, (wikiLang = language)), {})
       .then((y) => y?.json())
       .then((y: Result) => {
         setResults((orig) => {
@@ -147,6 +148,7 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
     results,
     location,
     locationError,
+    setLanguage,
   };
 
   return (
