@@ -1,5 +1,4 @@
-import React from "react";
-import ArrowUp from "../components/ArrowUp/ArrowUp";
+import NavBar from "../components/NavBar/NavBar";
 import Footer from "../components/Footer/Footer";
 import "./pageLayout.css";
 
@@ -18,7 +17,7 @@ function PageLayout({ children }: Props) {
         ויקיפדיה סביבי
       </h2>
       {children}
-      <ArrowUp />
+      <NavBar />
       <Footer />
     </div>
   );
