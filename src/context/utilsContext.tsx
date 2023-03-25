@@ -14,6 +14,7 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
   const [locationError, setLocationError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>([]);
   const [language, setLanguage] = useState<string>("he");
+  const [isShowing, setIsShowing] = useState<boolean>(true);
   // const [loadedEnglish, setLoadedEnglish] = useState(false);
   // const [showMapView, setShowMapView] = useState(false);
   // const [showPage, setShowPage] = useState(false);
@@ -91,6 +92,7 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
     if (location && !locationError) {
       setResults([]);
       getWikipediaResults(location, setResults, radius, language);
+      if (language === "en") setIsShowing(false);
     }
   }, [location, language]);
 
@@ -145,10 +147,11 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
     getWikipediaResults,
     getResultLink,
     getGoogleMapLink,
+    setLanguage,
     results,
     location,
     locationError,
-    setLanguage,
+    isShowing,
   };
 
   return (

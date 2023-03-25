@@ -9,6 +9,7 @@ import { UtilsContext } from "../../context/utilsContext";
 import Map from "../../components/Map/Map";
 import Spinner from "../../components/Spinner/Spinner";
 import "./listPage.css";
+import AddEnglishResultsButton from "../../components/AddEnglishResultsButton/AddEnglishResultsButton";
 
 // import {Geosearch} from '../../utils/types'
 
@@ -60,6 +61,7 @@ function ListPage() {
               location={location}
             />
           ))}
+          <AddEnglishResultsButton />
         </>
       ) : (
         <div>Unable to get location - {locationError}</div>

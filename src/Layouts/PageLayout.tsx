@@ -1,5 +1,4 @@
 import React from "react";
-import AddEnglishResultsButton from "../components/AddEnglishResultsButton/AddEnglishResultsButton";
 import ArrowUp from "../components/ArrowUp/ArrowUp";
 import Footer from "../components/Footer/Footer";
 import "./pageLayout.css";
@@ -19,7 +18,6 @@ function PageLayout({ children }: Props) {
         ויקיפדיה סביבי
       </h2>
       {children}
-      <AddEnglishResultsButton />
       <ArrowUp />
       <Footer />
     </div>
