@@ -10,9 +10,9 @@ type ResultEntryProps = {
   location: LatLngLocation | undefined;
 };
 
-const ResultEntry: FC<ResultEntryProps> = () => {
+const ResultEntry: FC<ResultEntryProps> = ({ result }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const { result, location, direction, getGoogleMapLink, getResultLink } =
+  const { location, direction, getGoogleMapLink, getResultLink } =
     useContext(UtilsContext);
   return (
     <div
