@@ -13,7 +13,6 @@ type MapProps = {
 };
 
 const customIcon = new Icon({
-  // iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
   iconUrl: "https://cdn-icons-png.flaticon.com/512/6276/6276532.png",
   iconSize: [38, 38],
 });

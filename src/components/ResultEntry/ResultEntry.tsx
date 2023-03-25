@@ -1,7 +1,6 @@
 import { FC, useState, useContext } from "react";
 import { UtilsContext } from "../../context/utilsContext";
 import { Geosearch, LatLngLocation } from "../../utils/types";
-// import { direction, getGoogleMapLink, getResultLink } from "../../utils/utils";
 
 import "./result-entry.scss";
 

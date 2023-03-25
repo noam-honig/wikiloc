@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <Link
-      to="/wikiloc"
+      to="/wikiloc/"
       className="header"
     >
       <h2>
