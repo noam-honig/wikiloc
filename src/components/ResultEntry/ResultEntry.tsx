@@ -1,6 +1,7 @@
-import { FC, useState } from "react";
+import { FC, useState, useContext } from "react";
+import { UtilsContext } from "../../context/utilsContext";
 import { Geosearch, LatLngLocation } from "../../utils/types";
-import { direction, getGoogleMapLink, getResultLink } from "../../utils/utils";
+// import { direction, getGoogleMapLink, getResultLink } from "../../utils/utils";
 
 import "./result-entry.scss";
 
@@ -9,9 +10,10 @@ type ResultEntryProps = {
   location: LatLngLocation | undefined;
 };
 
-const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
+const ResultEntry: FC<ResultEntryProps> = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  const { result, location, direction, getGoogleMapLink, getResultLink } =
+    useContext(UtilsContext);
   return (
     <div
       className={

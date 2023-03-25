@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Geosearch, LatLngLocation } from "./utils/types";
 
-import { getWikipediaResults } from "./utils/utils";
+// import { getWikipediaResults } from "./utils/utils";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
 import Map from "./components/Map/Map";
 
