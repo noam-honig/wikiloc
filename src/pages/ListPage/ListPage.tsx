@@ -1,44 +1,49 @@
-import { useEffect, useState, SVGProps } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Geosearch, LatLngLocation } from "../../utils/types";
 
-import { getWikipediaResults } from "../../utils/utils";
+// import { getWikipediaResults } from "../../utils/utils";
 import ResultEntry from "../../components/ResultEntry/ResultEntry";
 
-import Map from "../../components/Map/Map";
+import { UtilsContext } from "../../context/utilsContext";
 
-import "./listPage.css";
+import Map from "../../components/Map/Map";
 import Spinner from "../../components/Spinner/Spinner";
+import "./listPage.css";
+
+// import {Geosearch} from '../../utils/types'
 
 function ListPage() {
-  const [location, setLocation] = useState<LatLngLocation>();
-  const [locationError, setLocationError] = useState<string>();
-  const [results, setResults] = useState<Geosearch[]>([]);
-  const [showAddEnglish, setShowAddEnglish] = useState(true);
-  const [showMapView, setShowMapView] = useState(false);
-  const [showPage, setShowPage] = useState(false);
+  // const [location, setLocation] = useState<LatLngLocation>();
+  // const [locationError, setLocationError] = useState<string>();
+  // const [results, setResults] = useState<Geosearch[]>([]);
+  // const [showAddEnglish, setShowAddEnglish] = useState(true);
+  // const [showMapView, setShowMapView] = useState(false);
+  // const [showPage, setShowPage] = useState(false);
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position?.coords;
-        console.log("Lat-long:", latitude, longitude);
-        setLocation({
-          lat: latitude,
-          lng: longitude,
-        });
-      },
-      (error) => {
-        setLocationError("Location Error: " + error?.message);
-      },
-    );
-  }, []);
+  const { results, location, locationError } = useContext(UtilsContext);
 
-  useEffect(() => {
-    if (location && !locationError) {
-      setResults([]);
-      getWikipediaResults(location).then((results) => setResults(results));
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position) => {
+  //       const { latitude, longitude } = position?.coords;
+  //       console.log("Lat-long:", latitude, longitude);
+  //       setLocation({
+  //         lat: latitude,
+  //         lng: longitude,
+  //       });
+  //     },
+  //     (error) => {
+  //       setLocationError("Location Error: " + error?.message);
+  //     },
+  //   );
+  // }, []);
+
+  // useEffect(() => {
+  //   if (location && !locationError) {
+  //     setResults([]);
+  //     getWikipediaResults(location).then((results) => setResults(results));
+  //   }
+  // }, [location]);
 
   return (
     <div>
@@ -48,7 +53,7 @@ function ListPage() {
         </div>
       ) : !locationError ? (
         <>
-          {results.map((result) => (
+          {results.map((result: Geosearch) => (
             <ResultEntry
               key={result.pageid}
               result={result}
