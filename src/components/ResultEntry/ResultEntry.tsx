@@ -34,7 +34,7 @@ const ResultEntry: FC<ResultEntryProps> = ({ result }) => {
           </a>
         )}
         <div className="text-part">
-          <div style={{ flexGrow: 1 }}>
+          <div style={{ flexGrow: 1, marginLeft: "0.5rem" }}>
             <a
               className={
                 "ResultEntry--main__link" +
