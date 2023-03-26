@@ -1,0 +1,39 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin: 0 auto 1rem auto;
+  padding: 10px;
+}
+
+.header img {
+  width: 50px;
+  height: 50px;
+  margin-left: 0.5rem;
+}
+
+.header h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    background-color: #242424;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .header {
+    background-color: hsl(0, 0%, 100%);
+  }
+}

@@ -5,13 +5,15 @@ import "leaflet/dist/leaflet.css";
 import ResultEntry from "../ResultEntry/ResultEntry";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
+import "./map.scss";
+
 type MapProps = {
   results: Geosearch[];
   location: LatLngLocation;
 };
 
 const customIcon = new Icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/6276/6276532.png",
   iconSize: [38, 38],
 });
 const currentLocation = new Icon({
@@ -24,7 +26,7 @@ function Map({ results, location }: MapProps) {
 
   return (
     <MapContainer
-      style={{ height: "100vh", width: "100wh" }}
+      className="map-box"
       center={[location.lat, location.lng]}
       zoom={13}
     >
@@ -33,27 +35,33 @@ function Map({ results, location }: MapProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
+      <Marker
+        position={[location.lat, location.lng]}
+        icon={currentLocation}
+      />
+      {results.map((result) => (
         <Marker
-          position={[location.lat, location.lng]}
-          icon={currentLocation}
-        />
-        {results.map((result) => (
-          <Marker
-            key={result.pageid}
-            position={[result.lat, result.lon]}
-            icon={customIcon}
-          >
-            <Popup>
-              <div style={{ minWidth: "300px",direction:'rtl',textAlign:'right' }}>
-                <ResultEntry
-                  key={result.pageid}
-                  result={result}
-                  location={location}
-                />
-              </div>
-            </Popup>
-          </Marker>
-        ))}
+          key={result.pageid}
+          position={[result.lat, result.lon]}
+          icon={customIcon}
+        >
+          <Popup>
+            <div
+              style={{
+                minWidth: "300px",
+                direction: "rtl",
+                textAlign: "right",
+              }}
+            >
+              <ResultEntry
+                key={result.pageid}
+                result={result}
+                location={location}
+              />
+            </div>
+          </Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 }

@@ -1,39 +1,28 @@
-.arrow-up {
+.list-map-btn {
+  display: grid;
+  place-items: center;
   border-radius: 50%;
-  opacity: 0;
-  transition: all 0.4s ease;
   height: 80px;
   width: 80px;
   cursor: pointer;
 }
 
-.show {
-  opacity: 1;
-  pointer-events: all;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-}
-
-.show:hover {
-  opacity: 1;
-}
-
 @media (prefers-color-scheme: dark) {
-  .arrow-up {
+  .list-map-btn {
     background-color: hsl(0, 0%, 20%);
     border: 2px solid white;
   }
 }
 
 @media (prefers-color-scheme: light) {
-  .arrow-up {
+  .list-map-btn {
     background-color: hsl(0, 0%, 100%);
     border: 2px solid #ccc;
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .arrow-up {
+  .list-map-btn {
     width: 45px;
     height: 45px;
   }

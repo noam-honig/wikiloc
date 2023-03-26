@@ -1,0 +1,10 @@
+.list-page {
+  flex: 1;
+}
+
+.list-page-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}

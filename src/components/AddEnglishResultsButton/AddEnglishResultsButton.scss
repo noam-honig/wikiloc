@@ -1,0 +1,21 @@
+.lang-btn {
+  border-radius: 20px;
+  position: fixed;
+  bottom: 50px;
+  right: 5px;
+  width: 220px;
+  z-index: 999;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: light) {
+  .lang-btn {
+    border: 2px solid #ccc;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .lang-btn {
+    border: 2px solid white;
+  }
+}
