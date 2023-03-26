@@ -5,10 +5,12 @@ import Map from "../../components/Map/Map";
 function MapPage() {
   const { results, location } = useContext(UtilsContext);
   return (
-    <Map
-      results={results}
-      location={location!}
-    />
+    <div style={{ flex: 1 }}>
+      <Map
+        results={results}
+        location={location!}
+      />
+    </div>
   );
 }
 
