@@ -4,8 +4,8 @@ function Spinner(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="8rem"
-      height="8rem"
+      width="14rem"
+      height="14rem"
       viewBox="0 0 24 24"
       {...props}
     >
