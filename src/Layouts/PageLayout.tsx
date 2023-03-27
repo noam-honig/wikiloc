@@ -16,10 +16,16 @@ function PageLayout({ children }: Props) {
     <div className="container">
       <Header />
       {children}
-      {location.pathname !== "/wikiloc/" ? <NavBar /> : ""}
-      <AddMoreResultsButton />
-      <AddEnglishResultsButton />
-      <Footer />
+      {location.pathname !== "/wikiloc/" ? (
+        <>
+          <NavBar />
+          <AddMoreResultsButton />
+          <AddEnglishResultsButton />
+          <Footer />
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
