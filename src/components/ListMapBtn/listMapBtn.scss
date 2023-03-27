@@ -7,6 +7,11 @@
   cursor: pointer;
 }
 
+.fa-btn {
+  width: 45px;
+  height: 45px;
+}
+
 @media (prefers-color-scheme: dark) {
   .list-map-btn {
     background-color: hsl(0, 0%, 20%);
@@ -25,5 +30,9 @@
   .list-map-btn {
     width: 45px;
     height: 45px;
+  }
+  .fa-btn {
+    width: 25px;
+    height: 25px;
   }
 }

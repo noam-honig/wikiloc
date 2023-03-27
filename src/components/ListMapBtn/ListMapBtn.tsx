@@ -13,8 +13,8 @@ function ListMapBtn() {
       className="list-map-btn"
     >
       <FaRegListAlt
+        className="fa-btn"
         style={{ transform: "scaleX(-1)" }}
-        size={25}
         fill="#646cff"
       />
     </Link>
@@ -24,7 +24,7 @@ function ListMapBtn() {
       className="list-map-btn"
     >
       <FaMapMarked
-        size={25}
+        className="fa-btn"
         fill="#646cff"
       />
     </Link>
