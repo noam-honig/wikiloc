@@ -14,7 +14,10 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
   const [locationError, setLocationError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>([]);
   const [language, setLanguage] = useState<string>("he");
-  const [isShowing, setIsShowing] = useState<boolean>(true);
+  const [isShowingEnglish, setIsShowingEnglish] = useState<boolean>(true);
+  const [isShowingMoreResults, setIsShowingMoreResults] =
+    useState<boolean>(true);
+  const [count, setCount] = useState<number>(0);
 
   const direction = (location: LatLngLocation | undefined, r: Geosearch) => {
     let degrees =
@@ -34,7 +37,7 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
   };
 
   const getFetchURL = (location: LatLngLocation, wikiLang: string): string => {
-    return `https://${wikiLang}.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${location?.lat}|${location?.lng}&gsradius=2000&gslimit=50&format=json&gsprop=type|name&inprop=url&prop=info&origin=*`;
+    return `https://${wikiLang}.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${location?.lat}|${location?.lng}&gsradius=${radius}&gslimit=50&format=json&gsprop=type|name&inprop=url&prop=info&origin=*`;
   };
 
   const addDataToResult = (results: Geosearch[], y: any, wikiLang: string) => {
@@ -75,15 +78,15 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
 
   useEffect(() => {
     if (location && !locationError) {
-      setResults([]);
-      getWikipediaResults(location, setResults, radius, language);
-      if (language === "en") setIsShowing(false);
+      getWikipediaResults(location, radius, language);
+      if (language === "en") {
+        setIsShowingEnglish(false);
+      }
     }
   }, [location, language]);
 
   function getWikipediaResults(
     location: LatLngLocation,
-    setResults: (reduce: (orig: Geosearch[]) => Geosearch[]) => void,
     radius: number,
     wikiLang: string,
   ) {
@@ -127,16 +130,41 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
     return `https://maps.google.com/?q=${result?.lat},${result?.lon}`;
   };
 
+  const loadMoreResults = () => {
+    // Maximum range of radius is 10000 with the wikipedia API
+    if (radius >= 10000) {
+      setIsShowingMoreResults(false);
+      return;
+    }
+
+    // Get all Hebrew and English results within the same range
+    setCount(count + 1);
+    if (count % 2 === 0) {
+      setRadius(radius + 2000);
+    }
+
+    if (language === "he") {
+      getWikipediaResults(location!, radius, "en");
+      setLanguage("en");
+    } else {
+      getWikipediaResults(location!, radius, "he");
+      setLanguage("he");
+    }
+  };
+
   const value = {
     direction,
     getWikipediaResults,
     getResultLink,
     getGoogleMapLink,
     setLanguage,
+    loadMoreResults,
+    language,
     results,
     location,
     locationError,
-    isShowing,
+    isShowingEnglish,
+    isShowingMoreResults,
   };
 
   return (

@@ -1,7 +1,7 @@
-.lang-btn {
+.more-btn {
   border-radius: 20px;
   position: fixed;
-  bottom: 115px;
+  bottom: 50px;
   right: 5px;
   width: 220px;
   z-index: 2000;
@@ -9,13 +9,13 @@
 }
 
 @media (prefers-color-scheme: light) {
-  .lang-btn {
+  .more-btn {
     border: 2px solid #ccc;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  .lang-btn {
+  .more-btn {
     border: 2px solid white;
   }
 }

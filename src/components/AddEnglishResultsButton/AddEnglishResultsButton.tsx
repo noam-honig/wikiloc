@@ -3,11 +3,11 @@ import { UtilsContext } from "../../context/utilsContext";
 import "./AddEnglishResultsButton.scss";
 
 function AddEnglishResultsButton() {
-  const { isShowing, setLanguage } = useContext(UtilsContext);
+  const { isShowingEnglish, setLanguage } = useContext(UtilsContext);
 
   return (
     <>
-      {isShowing && (
+      {isShowingEnglish && (
         <button
           className="lang-btn"
           onClick={() => {

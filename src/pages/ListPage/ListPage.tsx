@@ -4,7 +4,6 @@ import { Geosearch } from "../../utils/types";
 
 import ResultEntry from "../../components/ResultEntry/ResultEntry";
 import Spinner from "../../components/Spinner/Spinner";
-import AddEnglishResultsButton from "../../components/AddEnglishResultsButton/AddEnglishResultsButton";
 import "./listPage.css";
 
 function ListPage() {
@@ -25,7 +24,6 @@ function ListPage() {
               location={location}
             />
           ))}
-          <AddEnglishResultsButton />
         </>
       ) : (
         <div>Unable to get location - {locationError}</div>
