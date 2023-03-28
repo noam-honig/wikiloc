@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { FaPlusCircle } from "react-icons/fa";
 import { UtilsContext } from "../../context/utilsContext";
 import "./AddMoreResultsButton.scss";
 
@@ -15,9 +16,12 @@ function AddMoreResultsButton() {
             window.scrollTo(0, 0);
           }}
         >
-          עוד תוצאות
-          <br />
-          עברית ואנגלית
+          <div>
+            עוד תוצאות
+            <br />
+            עברית ואנגלית
+          </div>
+          <FaPlusCircle size={25} />
         </button>
       )}
     </>
