@@ -17,8 +17,10 @@ function PageLayout({ children }: Props) {
       {children}
       {location.pathname !== "/wikiloc/" ? (
         <>
-          <NavBar />
-          <AddMoreResultsButton />
+          <div className="controls">
+            <NavBar />
+            <AddMoreResultsButton />
+          </div>
           <Footer />
         </>
       ) : (
