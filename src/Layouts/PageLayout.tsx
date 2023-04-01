@@ -17,13 +17,15 @@ function PageLayout({ children }: Props) {
       {children}
       {location.pathname !== "/wikiloc/" ? (
         <>
-          <NavBar />
-          <AddMoreResultsButton />
-          <Footer />
+          <div className="controls">
+            <NavBar />
+            <AddMoreResultsButton />
+          </div>
         </>
       ) : (
         ""
       )}
+      <Footer />
     </div>
   );
 }

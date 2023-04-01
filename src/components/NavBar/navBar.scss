@@ -1,11 +1,11 @@
 .nav-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 0.5rem;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  // position: sticky;
+  // bottom: 0;
+  // left: 0;
   z-index: 999;
   cursor: pointer;
 }
