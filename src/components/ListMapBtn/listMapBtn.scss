@@ -2,14 +2,14 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  height: 80px;
-  width: 80px;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
 }
 
 .fa-btn {
-  width: 45px;
-  height: 45px;
+  width: 25px;
+  height: 25px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,12 +27,4 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .list-map-btn {
-    width: 45px;
-    height: 45px;
-  }
-  .fa-btn {
-    width: 25px;
-    height: 25px;
-  }
 }

@@ -21,11 +21,11 @@ function PageLayout({ children }: Props) {
             <NavBar />
             <AddMoreResultsButton />
           </div>
-          <Footer />
         </>
       ) : (
         ""
       )}
+      <Footer />
     </div>
   );
 }
