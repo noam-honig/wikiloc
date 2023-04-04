@@ -62,18 +62,30 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position?.coords;
-        setLocation({
-          lat: latitude,
-          lng: longitude,
-        });
-      },
-      (error) => {
-        setLocationError("Location Error: " + error?.message);
-      },
-    );
+    const search = window.location.search;
+    if (search) {
+      const latLong = search
+        .replace("?", "")
+        .split(",")
+        .map((item) => parseFloat(item));
+      setLocation({
+        lat: latLong[0],
+        lng: latLong[1],
+      });
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position?.coords;
+          setLocation({
+            lat: latitude,
+            lng: longitude,
+          });
+        },
+        (error) => {
+          setLocationError("Location Error: " + error?.message);
+        },
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -165,6 +177,7 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
     locationError,
     isShowingEnglish,
     isShowingMoreResults,
+    setLocation,
   };
 
   return (
