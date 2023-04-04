@@ -3,14 +3,18 @@ import { FaSearchPlus } from "react-icons/fa";
 import { UtilsContext } from "../../context/utilsContext";
 import "./AddMoreResultsButton.scss";
 
-function AddMoreResultsButton() {
+type Props = {
+  width?: string;
+};
+function AddMoreResultsButton(props: Props) {
   const { loadMoreResults, isShowingMoreResults } = useContext(UtilsContext);
-
+  const { width } = props;
   return (
     <>
       {isShowingMoreResults && (
         <button
-          className="more-btn"
+          style={{ width: width }}
+          className='more-btn'
           onClick={() => {
             loadMoreResults();
             window.scrollTo(0, 0);
