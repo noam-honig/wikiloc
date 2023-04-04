@@ -62,12 +62,17 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
   };
 
   useEffect(() => {
+    // If the user manually enter the coordinates by hand to the URL
+    // Ex: http://localhost:5173/wikiloc/list/?68.153575,13.669497
     const search = window.location.search;
     if (search) {
       const latLong = search
         .replace("?", "")
+        // In case the user entered a space after the comma
+        .replace("%20", "")
         .split(",")
         .map((item) => parseFloat(item));
+      console.log(latLong);
       setLocation({
         lat: latLong[0],
         lng: latLong[1],
