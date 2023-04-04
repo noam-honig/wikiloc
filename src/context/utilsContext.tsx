@@ -72,7 +72,6 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
         .replace("%20", "")
         .split(",")
         .map((item) => parseFloat(item));
-      console.log(latLong);
       setLocation({
         lat: latLong[0],
         lng: latLong[1],
