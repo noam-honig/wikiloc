@@ -6,9 +6,12 @@ function Spinner(props: SVGProps<SVGSVGElement>) {
   const [message, setMessage] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setMessage(true);
     }, 4000);
+
+    // Clean up function
+    return () => clearTimeout(timer);
   }, []);
 
   return (
