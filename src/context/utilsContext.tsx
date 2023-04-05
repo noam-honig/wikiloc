@@ -182,6 +182,7 @@ const UtilsProvider: React.FunctionComponent<Props> = ({ children }) => {
     isShowingEnglish,
     isShowingMoreResults,
     setLocation,
+    count,
   };
 
   return (

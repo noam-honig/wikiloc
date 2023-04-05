@@ -152,7 +152,7 @@ function Spinner(props: SVGProps<SVGSVGElement>) {
               style={{ marginTop: "0.5rem" }}
               className='bounce'
             >
-              <AddMoreResultsButton width='160px' />
+              <AddMoreResultsButton width='190px' />
             </div>
           </div>
         )}

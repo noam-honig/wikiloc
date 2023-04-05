@@ -7,7 +7,8 @@ type Props = {
   width?: string;
 };
 function AddMoreResultsButton(props: Props) {
-  const { loadMoreResults, isShowingMoreResults } = useContext(UtilsContext);
+  const { loadMoreResults, isShowingMoreResults, count } =
+    useContext(UtilsContext);
   const { width } = props;
   return (
     <>
@@ -20,7 +21,7 @@ function AddMoreResultsButton(props: Props) {
             window.scrollTo(0, 0);
           }}
         >
-          <div>עוד תוצאות</div>
+          <div>עוד תוצאות ({8 - count})</div>
           <FaSearchPlus size={25} />
         </button>
       )}
