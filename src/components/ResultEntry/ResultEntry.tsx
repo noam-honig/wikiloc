@@ -1,6 +1,6 @@
-import { FC, useState } from "react";
+import { FC, useState, useContext } from "react";
+import { UtilsContext } from "../../context/utilsContext";
 import { Geosearch, LatLngLocation } from "../../utils/types";
-import { direction, getGoogleMapLink, getResultLink } from "../../utils/utils";
 
 import "./result-entry.scss";
 
@@ -9,14 +9,22 @@ type ResultEntryProps = {
   location: LatLngLocation | undefined;
 };
 
-const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
+const ResultEntry: FC<ResultEntryProps> = ({ result }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  const { location, direction, getGoogleMapLink, getResultLink } =
+    useContext(UtilsContext);
   return (
-    <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
+    <div
+      className={
+        "NewResultEntry" + " wrapper" + (imageLoaded ? " has-image" : "")
+      }
+    >
       <div>
         {result?.mainImage && (
-          <a href={getResultLink(result)} target="_blank">
+          <a
+            href={getResultLink(result)}
+            target="_blank"
+          >
             <img
               onLoad={() => setImageLoaded(true)}
               src={result?.mainImage}
@@ -26,7 +34,7 @@ const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
           </a>
         )}
         <div className="text-part">
-          <div style={{ flexGrow: 1 }}>
+          <div style={{ flexGrow: 1, marginLeft: "0.5rem" }}>
             <a
               className={
                 "ResultEntry--main__link" +

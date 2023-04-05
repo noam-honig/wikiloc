@@ -1,35 +1,26 @@
-.arrow-up {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.list-map-btn {
+  display: grid;
+  place-items: center;
   border-radius: 50%;
-  opacity: 0;
-  transition: all 0.4s ease;
   width: 45px;
   height: 45px;
   cursor: pointer;
 }
 
-.show {
-  opacity: 1;
-  pointer-events: all;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-}
-
-.show:hover {
-  opacity: 1;
+.fa-btn {
+  width: 25px;
+  height: 25px;
 }
 
 @media (prefers-color-scheme: dark) {
-  .arrow-up {
+  .list-map-btn {
     background-color: hsl(0, 0%, 20%);
     border: 2px solid white;
   }
 }
 
 @media (prefers-color-scheme: light) {
-  .arrow-up {
+  .list-map-btn {
     background-color: hsl(0, 0%, 100%);
     border: 2px solid #ccc;
   }

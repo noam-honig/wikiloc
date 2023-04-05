@@ -1,0 +1,22 @@
+.more-btn {
+  border-radius: 20px;
+  width: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2000;
+  cursor: pointer;
+  transform: scale(0.9);
+}
+
+@media (prefers-color-scheme: light) {
+  .more-btn {
+    border: 2px solid #ccc;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .more-btn {
+    border: 2px solid white;
+  }
+}

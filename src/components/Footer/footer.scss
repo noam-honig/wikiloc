@@ -1,0 +1,33 @@
+footer {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0 1.5rem;
+  margin: 0rem auto;
+  padding: 0.8rem 1.8rem 0.2rem 1.8rem;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 600px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 2000;
+}
+footer .source {
+  transform: translateY(-3px);
+  display: flex;
+  gap: 4px;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.twitter-share-button {
+  margin-right: 0.2rem;
+  margin-bottom: 0.52rem;
+}

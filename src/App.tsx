@@ -1,144 +1,32 @@
-import { useEffect, useState } from "react";
-import { Geosearch, LatLngLocation } from "./utils/types";
+import { Routes, Route } from "react-router-dom";
 
-import { getWikipediaResults } from "./utils/utils";
-import ResultEntry from "./components/ResultEntry/ResultEntry";
-import Map from "./components/Map/Map";
-
-import ArrowUp from "./components/ArrowUp/ArrowUp";
-import Spinner from "./components/Spinner/Spinner";
+import Splash from "./pages/Splash/Splash";
+import ListPage from "./pages/ListPage/ListPage";
+import MapPage from "./pages/MapPage/MapPage";
+import PageLayout from "./Layouts/PageLayout";
 
 const App = () => {
-  const [location, setLocation] = useState<LatLngLocation>();
-  const [radius, setRadius] = useState(2000);
-  const [locationError, setLocationError] = useState<string>();
-  const [results, setResults] = useState<Geosearch[]>([]);
-  const [loadedEnglish, setLoadedEnglish] = useState(false);
-  const [showMapView, setShowMapView] = useState(false);
-  const [showPage, setShowPage] = useState(false);
-
-  useEffect(() => {
-    if (location && !locationError) {
-      setResults([]);
-      getWikipediaResults(location, setResults, radius);
-    }
-  }, [location]);
-  const revealPage = () => {
-    setShowPage((prevState) => !prevState);
-    document.getElementById("description")?.remove();
-    const header = document.getElementById("top-header");
-
-    if (header) {
-      header.className = "smaller-header";
-    }
-
-    const search = window.location.search;
-    if (search.startsWith("?")) {
-      const s = decodeURI(search.substring(1)).split(",");
-      if (s.length == 2) {
-        setLocation({ lat: +s[0], lng: +s[1] });
-        return;
-      }
-    }
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position?.coords;
-        setLocation({
-          lat: latitude,
-          lng: longitude,
-        });
-      },
-      (error) => {
-        setLocationError("Location Error: " + error?.message);
-      }
-    );
-  };
   return (
     <>
-      {showPage ? (
+      <PageLayout>
         <>
-          {results.length === 0 ? (
-            <Spinner />
-          ) : (
-            <div>
-              {!locationError ? (
-                <>
-                  {showMapView && (
-                    <Map results={results} location={location!} />
-                  )}
-
-                  {!showMapView &&
-                    results.map((result) => (
-                      <ResultEntry
-                        key={result.pageid + result.wikiLang}
-                        result={result}
-                        location={location}
-                      />
-                    ))}
-                </>
-              ) : (
-                <div>Unable to get location - {locationError}</div>
-              )}
-
-              <div
-                style={{
-                  position: "sticky",
-                  gap: 3,
-                  bottom: 0,
-                  display: "flex",
-                  placeContent: "center",
-                  justifyContent: "space-around",
-                  zIndex: 9999,
-                }}
-              >
-                {radius < 10000 && (
-                  <button
-                    onClick={() => {
-                      let rad = radius;
-                      if (!loadedEnglish) {
-                        window.scrollTo(0, 0);
-                        setLoadedEnglish(true);
-                      } else {
-                        rad *= 2;
-                        if (rad > 10000) rad = 10000;
-                        setRadius(rad);
-                        getWikipediaResults(location!, setResults, rad);
-                      }
-                      getWikipediaResults(location!, setResults, rad, "en");
-                    }}
-                  >
-                    עוד תוצאות
-                  </button>
-                )}
-                <button
-                  onClick={() => {
-                    setShowMapView((prev) => !prev);
-                  }}
-                >
-                  {showMapView ? "רשימה" : "מפה"}
-                </button>
-                {!showMapView && <ArrowUp fill="#646cff" />}
-              </div>
-            </div>
-          )}
+          <Routes>
+            <Route
+              path="wikiloc/"
+              element={<Splash />}
+            />
+            <Route
+              path="wikiloc/list"
+              element={<ListPage />}
+            />
+            <Route
+              path="wikiloc/map"
+              element={<MapPage />}
+            />
+          </Routes>
         </>
-      ) : (
-        <div style={{ display: "flex", placeContent: "center" }}>
-          <button
-            onClick={revealPage}
-            style={{
-              textAlign: "center",
-              backgroundColor: "#535bf2",
-              color: "white",
-              marginBottom: "30px",
-            }}
-          >
-            לחצו כדי לראות מה קורה סביבכם
-          </button>
-        </div>
-      )}
+      </PageLayout>
     </>
   );
 };
-
 export default App;
