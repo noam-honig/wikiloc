@@ -7,11 +7,13 @@ import Map from "./components/Map/Map";
 
 import ArrowUp from "./components/ArrowUp/ArrowUp";
 import Spinner from "./components/Spinner/Spinner";
+import ErrorIndicator from "./components/ErrorIndicator/ErrorIndicator";
 
 const App = () => {
   const [location, setLocation] = useState<LatLngLocation>();
   const [radius, setRadius] = useState(2000);
   const [locationError, setLocationError] = useState<string>();
+  const [fetchError, setFetchError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>([]);
   const [loadedEnglish, setLoadedEnglish] = useState(false);
   const [showMapView, setShowMapView] = useState(false);
@@ -20,7 +22,7 @@ const App = () => {
   useEffect(() => {
     if (location && !locationError) {
       setResults([]);
-      getWikipediaResults(location, setResults, radius);
+      getWikipediaResults(location, setResults, radius, setFetchError);
     }
   }, [location]);
   const revealPage = () => {
@@ -57,7 +59,9 @@ const App = () => {
     <>
       {showPage ? (
         <>
-          {results.length === 0 ? (
+          {fetchError ? (
+            <ErrorIndicator message={fetchError} />
+          ) : results.length === 0 ? (
             <Spinner />
           ) : (
             <div>
@@ -102,9 +106,20 @@ const App = () => {
                         rad *= 2;
                         if (rad > 10000) rad = 10000;
                         setRadius(rad);
-                        getWikipediaResults(location!, setResults, rad);
+                        getWikipediaResults(
+                          location!,
+                          setResults,
+                          rad,
+                          setFetchError
+                        );
                       }
-                      getWikipediaResults(location!, setResults, rad, "en");
+                      getWikipediaResults(
+                        location!,
+                        setResults,
+                        rad,
+                        setFetchError,
+                        "en"
+                      );
                     }}
                   >
                     עוד תוצאות

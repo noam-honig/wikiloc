@@ -53,36 +53,40 @@ export const addDataToResult = (
   });
 };
 
-export function getWikipediaResults(
+export async function getWikipediaResults(
   location: LatLngLocation,
   setResults: (reduce: (orig: Geosearch[]) => Geosearch[]) => void,
   radius: number,
+  setFetchError: React.Dispatch<React.SetStateAction<string | undefined>>,
   wikiLang = "he"
 ) {
-  fetch(getFetchURL(location, radius, wikiLang), {})
-    .then((y) => y?.json())
-    .then((y: Result) => {
-      setResults((orig) => {
-        const r = [
-          ...orig,
-          ...y.query.geosearch
-            .filter(
-              (g) =>
-                !orig.find(
-                  (o) => o.pageid == g.pageid && o.wikiLang == wikiLang
-                )
-            )
-            .map((g) => ({ ...g, wikiLang })),
-        ];
-        r.sort((a, b) => +a.dist - +b.dist);
-        return r;
-      });
-      fetch(getWikipediaInfo(y, wikiLang))
-        .then((y) => y.json())
-        .then((y) =>
-          setResults((result) => addDataToResult(result, y, wikiLang))
-        );
+  try {
+    const y = await fetch(getFetchURL(location, radius, wikiLang), {});
+    const response: Result = await y.json();
+
+    if (response.query.geosearch.length === 0)
+      throw new Error("לא נמצאו תוצאות");
+
+    setResults((orig) => {
+      const r = [
+        ...orig,
+        ...response.query.geosearch
+          .filter(
+            (g) =>
+              !orig.find((o) => o.pageid == g.pageid && o.wikiLang == wikiLang)
+          )
+          .map((g) => ({ ...g, wikiLang })),
+      ];
+      r.sort((a, b) => +a.dist - +b.dist);
+      return r;
     });
+
+    const wikiInfoResponse = await fetch(getWikipediaInfo(response, wikiLang));
+    const wikiInfo = await wikiInfoResponse.json();
+    setResults((result) => addDataToResult(result, wikiInfo, wikiLang));
+  } catch (error: any) {
+    setFetchError(error.message || error);
+  }
 }
 
 export const getWikipediaInfo = (y: Result, wikiLang: string): string => {
