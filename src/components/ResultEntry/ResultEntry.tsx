@@ -36,15 +36,38 @@ const ResultEntry: FC<ResultEntryProps> = ({
     }
     speech.cancel();
     let text = await getTextToSpeak(result);
-    console.log(text);
-    let s = new SpeechSynthesisUtterance(text);
-    s.voice = speech
-      .getVoices()
-      .findLast(
-        (v) => v.lang == (result.wikiLang === "he" ? "he-IL" : "en-US")
-      )!;
-    speech.speak(s);
-    iAmSpeaking();
+    let tmp = document.createElement("DIV");
+    tmp.innerHTML = text;
+    text = tmp.textContent || tmp.innerText || "";
+
+    const split = text
+      .split(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/)
+      .filter((x) => x.trim());
+    let i = 0;
+
+    console.log(split);
+    function speak(what: string) {
+      let s = new SpeechSynthesisUtterance(what);
+      const lang = result.wikiLang === "he" ? "he-IL" : "en-US";
+      s.voice = speech.getVoices().findLast((v) => v.lang == lang)!;
+      if (s.voice == null) {
+        alert("לא נמצא קול דובר " + lang);
+        return;
+      }
+      s.addEventListener("start", () => console.log("start"));
+      s.addEventListener("boundary", () => console.log("boundary"));
+      s.addEventListener("end", () => {
+        if (i < split.length) speak(split[i++]);
+      });
+      s.addEventListener("error", (err) => console.log("error ", err));
+      s.addEventListener("mark", () => console.log("mark"));
+      s.addEventListener("pause", () => console.log("pause"));
+      s.addEventListener("resume", () => console.log("resume"));
+
+      speech.speak(s);
+      iAmSpeaking();
+    }
+    speak(split[i++]);
   }
   return (
     <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
