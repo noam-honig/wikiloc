@@ -49,7 +49,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
     function speak(what: string) {
       let s = new SpeechSynthesisUtterance(what);
       const lang = result.wikiLang === "he" ? "he-IL" : "en-US";
-      s.voice = speech.getVoices().findLast((v) => v.lang == lang)!;
+      s.voice = speech.getVoices().find((v) => v.lang == lang)!;
       if (s.voice == null) {
         alert("לא נמצא קול דובר " + lang);
         return;

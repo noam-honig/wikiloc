@@ -8,6 +8,8 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 type MapProps = {
   results: Geosearch[];
   location: LatLngLocation;
+  speaking: string;
+  setSpeaking: (key: string) => void;
 };
 
 const customIcon = new Icon({
@@ -19,7 +21,7 @@ const currentLocation = new Icon({
   iconSize: [38, 38],
 });
 
-function Map({ results, location }: MapProps) {
+function Map({ results, location, speaking, setSpeaking }: MapProps) {
   if (location === undefined) return <></>;
 
   return (
@@ -33,27 +35,35 @@ function Map({ results, location }: MapProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-        <Marker
-          position={[location.lat, location.lng]}
-          icon={currentLocation}
-        />
-        {results.map((result) => (
+      <Marker position={[location.lat, location.lng]} icon={currentLocation} />
+      {results.map((result) => {
+        const key = result.pageid + result.wikiLang;
+        return (
           <Marker
-            key={result.pageid}
+            key={key}
             position={[result.lat, result.lon]}
             icon={customIcon}
           >
             <Popup>
-              <div style={{ minWidth: "300px",direction:'rtl',textAlign:'right' }}>
+              <div
+                style={{
+                  minWidth: "300px",
+                  direction: "rtl",
+                  textAlign: "right",
+                }}
+              >
                 <ResultEntry
-                  key={result.pageid}
+                  key={key}
                   result={result}
                   location={location}
+                  speaking={speaking == key}
+                  iAmSpeaking={() => setSpeaking(key)}
                 />
               </div>
             </Popup>
           </Marker>
-        ))}
+        );
+      })}
     </MapContainer>
   );
 }

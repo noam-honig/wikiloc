@@ -58,7 +58,12 @@ const App = () => {
               {!locationError ? (
                 <>
                   {showMapView && (
-                    <Map results={results} location={location!} />
+                    <Map
+                      results={results}
+                      location={location!}
+                      speaking={speaking}
+                      setSpeaking={setSpeaking}
+                    />
                   )}
 
                   {!showMapView &&
