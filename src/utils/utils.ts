@@ -1,6 +1,41 @@
 import { DIRECTIONS } from "./constants";
 import { Geosearch, LatLngLocation, Result } from "./types";
 
+const TESTING = false;
+export function loadLocation(
+  setLocation: (loc: LatLngLocation) => void,
+  setError: (error: string) => void
+) {
+  if (TESTING) {
+    setLocation({
+      lat: 1,
+      lng: 1,
+    });
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const { latitude, longitude } = position?.coords;
+      setLocation({
+        lat: latitude,
+        lng: longitude,
+      });
+    },
+    (error) => {
+      setError("Location Error: " + error?.message);
+    }
+  );
+}
+export async function getTextToSpeak(result: Geosearch): Promise<string> {
+  if (TESTING) {
+    return result.title;
+  }
+  let r = await fetch(
+    `https://${result.wikiLang}.wikipedia.org/w/api.php?action=query&pageids=${result.pageid}&format=json&prop=description|pageimages&origin=*&prop=extracts`
+  ).then((r) => r.json());
+  let text = r.query.pages[result.pageid].extract;
+  return text;
+}
 export const direction = (
   location: LatLngLocation | undefined,
   r: Geosearch
@@ -55,11 +90,55 @@ export const addDataToResult = (
 
 export async function getWikipediaResults(
   location: LatLngLocation,
-  setResults: (reduce: (orig: Geosearch[]) => Geosearch[]) => void,
+  setResults: (
+    reduce: (orig: Geosearch[] | undefined) => Geosearch[] | undefined
+  ) => void,
   radius: number,
   setFetchError: React.Dispatch<React.SetStateAction<string | undefined>>,
   wikiLang = "he"
 ) {
+  if (TESTING) {
+    setResults(() => [
+      {
+        pageid: 1,
+        title: "מטוס",
+        wikiLang: "he",
+        dist: 1,
+        name: "test",
+        lat: 1,
+        lon: 1,
+        ns: 1,
+        primary: "1",
+        type: null,
+      },
+      {
+        pageid: 2,
+        title: "דירה",
+        wikiLang: "he",
+        dist: 1,
+        name: "test",
+        lat: 1,
+        lon: 1,
+        ns: 1,
+        primary: "1",
+        type: null,
+      },
+      {
+        pageid: 3,
+        title: "boat",
+        wikiLang: "en",
+        dist: 1,
+        name: "test",
+        lat: 1,
+        lon: 1,
+        ns: 1,
+        primary: "1",
+        type: null,
+      },
+    ]);
+    return;
+  }
+
   try {
     const y = await fetch(getFetchURL(location, radius, wikiLang), {});
     const response: Result = await y.json();
@@ -69,11 +148,11 @@ export async function getWikipediaResults(
 
     setResults((orig) => {
       const r = [
-        ...orig,
+        ...orig!,
         ...response.query.geosearch
           .filter(
             (g) =>
-              !orig.find((o) => o.pageid == g.pageid && o.wikiLang == wikiLang)
+              !orig!.find((o) => o.pageid == g.pageid && o.wikiLang == wikiLang)
           )
           .map((g) => ({ ...g, wikiLang })),
       ];
@@ -83,7 +162,7 @@ export async function getWikipediaResults(
 
     const wikiInfoResponse = await fetch(getWikipediaInfo(response, wikiLang));
     const wikiInfo = await wikiInfoResponse.json();
-    setResults((result) => addDataToResult(result, wikiInfo, wikiLang));
+    setResults((result) => addDataToResult(result!, wikiInfo, wikiLang));
   } catch (error: any) {
     setFetchError(error.message || error);
   }

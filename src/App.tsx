@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Geosearch, LatLngLocation } from "./utils/types";
 
-import { getWikipediaResults } from "./utils/utils";
+import { getWikipediaResults, loadLocation } from "./utils/utils";
 import ResultEntry from "./components/ResultEntry/ResultEntry";
 import Map from "./components/Map/Map";
 
@@ -14,10 +14,11 @@ const App = () => {
   const [radius, setRadius] = useState(2000);
   const [locationError, setLocationError] = useState<string>();
   const [fetchError, setFetchError] = useState<string>();
-  const [results, setResults] = useState<Geosearch[]>([]);
+  const [results, setResults] = useState<Geosearch[]>();
   const [loadedEnglish, setLoadedEnglish] = useState(false);
   const [showMapView, setShowMapView] = useState(false);
   const [showPage, setShowPage] = useState(false);
+  const [speaking, setSpeaking] = useState("");
 
   useEffect(() => {
     if (location && !locationError) {
@@ -42,18 +43,7 @@ const App = () => {
         return;
       }
     }
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position?.coords;
-        setLocation({
-          lat: latitude,
-          lng: longitude,
-        });
-      },
-      (error) => {
-        setLocationError("Location Error: " + error?.message);
-      }
-    );
+    loadLocation(setLocation, setLocationError);
   };
   return (
     <>
@@ -61,7 +51,7 @@ const App = () => {
         <>
           {fetchError ? (
             <ErrorIndicator message={fetchError} />
-          ) : results.length === 0 ? (
+          ) : results === undefined ? (
             <Spinner />
           ) : (
             <div>
@@ -72,13 +62,18 @@ const App = () => {
                   )}
 
                   {!showMapView &&
-                    results.map((result) => (
-                      <ResultEntry
-                        key={result.pageid + result.wikiLang}
-                        result={result}
-                        location={location}
-                      />
-                    ))}
+                    results.map((result) => {
+                      const key = result.pageid + result.wikiLang;
+                      return (
+                        <ResultEntry
+                          key={key}
+                          result={result}
+                          location={location}
+                          speaking={key === speaking}
+                          iAmSpeaking={() => setSpeaking(key)}
+                        />
+                      );
+                    })}
                 </>
               ) : (
                 <div>Unable to get location - {locationError}</div>

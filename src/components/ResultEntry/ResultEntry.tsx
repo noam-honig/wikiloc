@@ -1,17 +1,51 @@
 import { FC, useState } from "react";
 import { Geosearch, LatLngLocation } from "../../utils/types";
-import { direction, getGoogleMapLink, getResultLink } from "../../utils/utils";
+import {
+  direction,
+  getGoogleMapLink,
+  getResultLink,
+  getTextToSpeak,
+} from "../../utils/utils";
 
 import "./result-entry.scss";
 
 type ResultEntryProps = {
   result: Geosearch;
   location: LatLngLocation | undefined;
+  speaking: boolean;
+  iAmSpeaking: () => void;
 };
 
-const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
+const ResultEntry: FC<ResultEntryProps> = ({
+  result,
+  location,
+  speaking,
+  iAmSpeaking,
+}) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const [playing, setPlaying] = useState(true);
+  async function readIt() {
+    let speech = window.speechSynthesis;
+    if (speaking) {
+      if (playing) speech.pause();
+      else speech.resume();
+      setPlaying(!playing);
+
+      return;
+    }
+    speech.cancel();
+    let text = await getTextToSpeak(result);
+    console.log(text);
+    let s = new SpeechSynthesisUtterance(text);
+    s.voice = speech
+      .getVoices()
+      .findLast(
+        (v) => v.lang == (result.wikiLang === "he" ? "he-IL" : "en-US")
+      )!;
+    speech.speak(s);
+    iAmSpeaking();
+  }
   return (
     <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
       <div>
@@ -55,6 +89,9 @@ const ResultEntry: FC<ResultEntryProps> = ({ result, location }) => {
                 </a>
               </div>
             )}
+            <span onClick={readIt}>
+              {speaking ? (playing ? "⏸️" : "▶️") : "🔊"}
+            </span>
           </div>
           <a
             className="NewResultEntry--location-area"
