@@ -23,7 +23,35 @@ const App = () => {
   useEffect(() => {
     if (location && !locationError) {
       setResults([]);
-      getWikipediaResults(location, setResults, radius, setFetchError);
+      getWikipediaResults(location, setResults, radius, setFetchError, () => {
+        setLoadedEnglish(true);
+        getWikipediaResults(
+          location,
+          setResults,
+          radius,
+          setFetchError,
+          () => {
+            setRadius(10000);
+            getWikipediaResults(
+              location,
+              setResults,
+              10000,
+              setFetchError,
+              () => {}
+            );
+            setRadius(10000);
+            getWikipediaResults(
+              location,
+              setResults,
+              10000,
+              setFetchError,
+              () => {},
+              "en"
+            );
+          },
+          "en"
+        );
+      });
     }
   }, [location]);
   const revealPage = () => {
@@ -110,7 +138,8 @@ const App = () => {
                           location!,
                           setResults,
                           rad,
-                          setFetchError
+                          setFetchError,
+                          () => {}
                         );
                       }
                       getWikipediaResults(
@@ -118,6 +147,7 @@ const App = () => {
                         setResults,
                         rad,
                         setFetchError,
+                        () => {},
                         "en"
                       );
                     }}

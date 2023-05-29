@@ -95,6 +95,7 @@ export async function getWikipediaResults(
   ) => void,
   radius: number,
   setFetchError: React.Dispatch<React.SetStateAction<string | undefined>>,
+  noResults: () => void,
   wikiLang = "he"
 ) {
   if (TESTING) {
@@ -143,8 +144,10 @@ export async function getWikipediaResults(
     const y = await fetch(getFetchURL(location, radius, wikiLang), {});
     const response: Result = await y.json();
 
-    if (response.query.geosearch.length === 0)
-      throw new Error("לא נמצאו תוצאות");
+    if (response.query.geosearch.length === 0) {
+      noResults();
+      return;
+    }
 
     setResults((orig) => {
       const r = [
