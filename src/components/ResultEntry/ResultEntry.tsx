@@ -23,9 +23,9 @@ const ResultEntry: FC<ResultEntryProps> = ({
   iAmSpeaking,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [textsToRead, setTextsToRead] = useState<string[]>();
-  const [speechIndex, setSpeechIndex] = useState(0);
+  const [speechIndex, setSpeechIndex] = useState(-1);
 
   function findVoice() {
     return window.speechSynthesis
@@ -46,41 +46,43 @@ const ResultEntry: FC<ResultEntryProps> = ({
       });
     }
   }, []);
-  function readIt() {
-    try {
-      console.log(textsToRead!);
-      let speech = window.speechSynthesis;
-      if (speaking) {
-        if (playing) speech.pause();
-        else speech.resume();
-        setPlaying(!playing);
+  useEffect(() => {
+    let speech = window.speechSynthesis;
 
-        return;
-      }
-
-      speech.cancel();
-
-      let i = 0;
-
-      function speak() {
-        if (i >= textsToRead!.length) return;
-        let text = textsToRead![i++];
-        setSpeechIndex(i);
-        let s = new SpeechSynthesisUtterance(text);
-        s.voice = findVoice();
-
-        s.addEventListener("end", () => {
-          speak();
-        });
-        s.addEventListener("error", (err) => console.log(err));
-
-        speech.speak(s);
-        iAmSpeaking();
-      }
-      speak();
-    } catch (err) {
-      alert("catch:" + err);
+    if (!textsToRead) return;
+    if (speechIndex >= textsToRead!.length) {
+      setPlaying(false);
+      return;
     }
+    if (speechIndex < 0) {
+      setPlaying(false);
+      return;
+    }
+    speech.cancel();
+    setPlaying(true);
+    let text = textsToRead![speechIndex];
+    let s = new SpeechSynthesisUtterance(text);
+    s.voice = findVoice();
+
+    s.addEventListener("end", () => {
+      setSpeechIndex((i) => i + 1);
+    });
+    s.addEventListener("error", (err) => console.log(err));
+
+    speech.speak(s);
+    iAmSpeaking();
+  }, [speechIndex]);
+  function readIt() {
+    console.log(textsToRead!);
+    let speech = window.speechSynthesis;
+    if (speaking) {
+      if (playing) speech.pause();
+      else speech.resume();
+      setPlaying(!playing);
+
+      return;
+    }
+    setSpeechIndex(0);
   }
   return (
     <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
@@ -125,11 +127,47 @@ const ResultEntry: FC<ResultEntryProps> = ({
                 </a>
               </div>
             )}
-            {textsToRead && (
-              <span onClick={readIt}>
-                {speaking ? (playing ? `${speechIndex} / ${textsToRead.length} - ⏸️` : "▶️") : "🔊"}
-              </span>
-            )}
+            {textsToRead &&
+              (speaking ? (
+                <>
+                  <div
+                    style={{
+                      fontSize: "36px",
+                      display: "flex",
+                      gap: "16px",
+                    }}
+                  >
+                    {speaking && (
+                      <span onClick={() => setSpeechIndex((i) => i - 1)}>
+                        ⏩
+                      </span>
+                    )}
+                    <span>{`${textsToRead.length}/${speechIndex} `}</span>
+                    <span
+                      onClick={readIt}
+                      style={{ transform: "rotate(180deg)" }}
+                    >
+                      {playing ? `⏸️` : "▶️"}
+                    </span>
+                    {speaking && (
+                      <span onClick={() => setSpeechIndex((i) => i + 1)}>
+                        ⏪
+                      </span>
+                    )}
+                  </div>
+                  {/* <div
+                    className={
+                      result.wikiLang !== "he" ? " NewResultEntry__ltr" : ""
+                    }
+                  >
+                    {textsToRead[speechIndex]}
+                  </div> */}
+                </>
+              ) : (
+                <div>
+                  <span onClick={readIt}>🔊</span>
+                </div>
+              ))}
           </div>
           <a
             className="NewResultEntry--location-area"
