@@ -68,9 +68,9 @@ const ResultEntry: FC<ResultEntryProps> = ({
     s.voice = findVoice();
     if (!s.voice) {
       alert(
-        "בדפדן חסר קול עבור השפה " + result.wikiLang == "he"
+        "בדפדן חסר קול עבור השפה " + (result.wikiLang == "he"
           ? "עברית"
-          : result.wikiLang
+          : result.wikiLang)
       );
       return;
     }
