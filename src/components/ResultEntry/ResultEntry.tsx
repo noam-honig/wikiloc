@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Geosearch, LatLngLocation } from "../../utils/types";
 import {
   direction,
@@ -23,51 +23,64 @@ const ResultEntry: FC<ResultEntryProps> = ({
   iAmSpeaking,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-
   const [playing, setPlaying] = useState(true);
-  async function readIt() {
-    let speech = window.speechSynthesis;
-    if (speaking) {
-      if (playing) speech.pause();
-      else speech.resume();
-      setPlaying(!playing);
+  const [textsToRead, setTextsToRead] = useState<string[]>();
+  const [speechIndex, setSpeechIndex] = useState(0);
 
-      return;
+  function findVoice() {
+    return window.speechSynthesis
+      .getVoices()
+      .find((v) => v.lang.startsWith(result.wikiLang))!;
+  }
+
+  useEffect(() => {
+    if (findVoice() || true) {
+      getTextToSpeak(result).then((text) => {
+        let tmp = document.createElement("DIV");
+        tmp.innerHTML = text;
+        text = tmp.textContent || tmp.innerText || "";
+
+        const split = text.split(/[.\n]/).filter((x) => x.trim());
+
+        setTextsToRead(split);
+      });
     }
-    speech.cancel();
-    let text = await getTextToSpeak(result);
-    let tmp = document.createElement("DIV");
-    tmp.innerHTML = text;
-    text = tmp.textContent || tmp.innerText || "";
+  }, []);
+  function readIt() {
+    try {
+      console.log(textsToRead!);
+      let speech = window.speechSynthesis;
+      if (speaking) {
+        if (playing) speech.pause();
+        else speech.resume();
+        setPlaying(!playing);
 
-    const split = text
-      .split(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/)
-      .filter((x) => x.trim());
-    let i = 0;
-
-    console.log(split);
-    function speak(what: string) {
-      let s = new SpeechSynthesisUtterance(what);
-      const lang = result.wikiLang === "he" ? "he-IL" : "en-US";
-      s.voice = speech.getVoices().find((v) => v.lang == lang)!;
-      if (s.voice == null) {
-        alert("לא נמצא קול דובר " + lang);
         return;
       }
-      s.addEventListener("start", () => console.log("start"));
-      s.addEventListener("boundary", () => console.log("boundary"));
-      s.addEventListener("end", () => {
-        if (i < split.length) speak(split[i++]);
-      });
-      s.addEventListener("error", (err) => console.log("error ", err));
-      s.addEventListener("mark", () => console.log("mark"));
-      s.addEventListener("pause", () => console.log("pause"));
-      s.addEventListener("resume", () => console.log("resume"));
 
-      speech.speak(s);
-      iAmSpeaking();
+      speech.cancel();
+
+      let i = 0;
+
+      function speak() {
+        if (i >= textsToRead!.length) return;
+        let text = textsToRead![i++];
+        setSpeechIndex(i);
+        let s = new SpeechSynthesisUtterance(text);
+        s.voice = findVoice();
+
+        s.addEventListener("end", () => {
+          speak();
+        });
+        s.addEventListener("error", (err) => console.log(err));
+
+        speech.speak(s);
+        iAmSpeaking();
+      }
+      speak();
+    } catch (err) {
+      alert("catch:" + err);
     }
-    speak(split[i++]);
   }
   return (
     <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
@@ -112,9 +125,11 @@ const ResultEntry: FC<ResultEntryProps> = ({
                 </a>
               </div>
             )}
-            <span onClick={readIt}>
-              {speaking ? (playing ? "⏸️" : "▶️") : "🔊"}
-            </span>
+            {textsToRead && (
+              <span onClick={readIt}>
+                {speaking ? (playing ? `${speechIndex} / ${textsToRead.length} - ⏸️` : "▶️") : "🔊"}
+              </span>
+            )}
           </div>
           <a
             className="NewResultEntry--location-area"
