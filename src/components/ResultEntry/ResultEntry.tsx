@@ -34,7 +34,10 @@ const ResultEntry: FC<ResultEntryProps> = ({
   }
 
   useEffect(() => {
-    if (findVoice() ) {
+    window.speechSynthesis.onvoiceschanged = (x) => {
+      console.log("voicesChanged");
+    };
+    {
       getTextToSpeak(result).then((text) => {
         let tmp = document.createElement("DIV");
         tmp.innerHTML = text;
@@ -63,6 +66,10 @@ const ResultEntry: FC<ResultEntryProps> = ({
     let text = textsToRead![speechIndex];
     let s = new SpeechSynthesisUtterance(text);
     s.voice = findVoice();
+    if (!s.voice) {
+      alert("בדפדן חסר קול עבור השפה " + result.wikiLang);
+      return;
+    }
 
     s.addEventListener("end", () => {
       setSpeechIndex((i) => i + 1);
