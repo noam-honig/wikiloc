@@ -34,7 +34,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
   }
 
   useEffect(() => {
-    if (findVoice() || true) {
+    if (findVoice() ) {
       getTextToSpeak(result).then((text) => {
         let tmp = document.createElement("DIV");
         tmp.innerHTML = text;
