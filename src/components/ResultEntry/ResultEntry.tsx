@@ -67,7 +67,11 @@ const ResultEntry: FC<ResultEntryProps> = ({
     let s = new SpeechSynthesisUtterance(text);
     s.voice = findVoice();
     if (!s.voice) {
-      alert("בדפדן חסר קול עבור השפה " + result.wikiLang);
+      alert(
+        "בדפדן חסר קול עבור השפה " + result.wikiLang == "he"
+          ? "עברית"
+          : result.wikiLang
+      );
       return;
     }
 
