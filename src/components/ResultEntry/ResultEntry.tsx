@@ -156,7 +156,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
                     <span>{`${textsToRead.length}/${speechIndex} `}</span>
                     <span
                       onClick={readIt}
-                      style={{ transform: "rotate(180deg)" }}
+                      style={{ transform: "scaleX(-1)" }}
                     >
                       {playing ? `⏸️` : "▶️"}
                     </span>
