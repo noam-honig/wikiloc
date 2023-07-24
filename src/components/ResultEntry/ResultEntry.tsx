@@ -43,7 +43,14 @@ const ResultEntry: FC<ResultEntryProps> = ({
         tmp.innerHTML = text;
         text = tmp.textContent || tmp.innerText || "";
 
-        const split = text.split(/[.\n]/).filter((x) => x.trim());
+        const split = text
+          .split(/[.\n]/)
+          .filter((x) => x.trim())
+          .map((x) =>
+            x
+              .replaceAll('"', String.fromCharCode(1524))
+              .replaceAll("'", String.fromCharCode(1523))
+          );
 
         setTextsToRead(split);
       });
@@ -68,9 +75,8 @@ const ResultEntry: FC<ResultEntryProps> = ({
     s.voice = findVoice();
     if (!s.voice) {
       alert(
-        "בדפדפן זה חסר קול עבור השפה " + (result.wikiLang == "he"
-          ? "עברית"
-          : result.wikiLang)
+        "בדפדפן זה חסר קול עבור השפה " +
+          (result.wikiLang == "he" ? "עברית" : result.wikiLang)
       );
       return;
     }
@@ -154,10 +160,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
                       </span>
                     )}
                     <span>{`${textsToRead.length}/${speechIndex} `}</span>
-                    <span
-                      onClick={readIt}
-                      style={{ transform: "scaleX(-1)" }}
-                    >
+                    <span onClick={readIt} style={{ transform: "scaleX(-1)" }}>
                       {playing ? `⏸️` : "▶️"}
                     </span>
                     {speaking && (
