@@ -75,6 +75,24 @@ const App = () => {
   };
   return (
     <>
+      {/* <textarea id="xyz"></textarea>
+      <button
+        onClick={() => {
+          let text:string = (document.getElementById("xyz") as any)!.value!;
+          let val = 'חב"ד 123'.replaceAll('"',String.fromCharCode(1524));
+        //  text= val;
+          alert( text.charCodeAt(2) + " -> " + val.charCodeAt(2));
+
+          const s = new SpeechSynthesisUtterance(text);
+          s.voice = window.speechSynthesis
+            .getVoices()
+            .find((v) => v.lang.startsWith("he"))!;
+          window.speechSynthesis.speak(s);
+          console.log(s.text);
+        }}
+      >
+        test
+      </button> */}
       {showPage ? (
         <>
           {fetchError ? (

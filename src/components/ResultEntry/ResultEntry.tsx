@@ -47,7 +47,14 @@ const ResultEntry: FC<ResultEntryProps> = ({
         tmp.innerHTML = text;
         text = tmp.textContent || tmp.innerText || '';
 
-        const split = text.split(/[.\n]/).filter((x) => x.trim());
+        const split = text
+          .split(/[.\n]/)
+          .filter((x) => x.trim())
+          .map((x) =>
+            x
+              .replaceAll('"', String.fromCharCode(1524))
+              .replaceAll("'", String.fromCharCode(1523)),
+          );
 
         setTextsToRead(split);
       });
