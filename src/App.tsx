@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Geosearch, LatLngLocation } from './utils/types';
+import { useEffect, useState } from "react";
+import { Geosearch, LatLngLocation } from "./utils/types";
 
-import { getWikipediaResults, loadLocation } from './utils/utils';
-import ResultEntry from './components/ResultEntry/ResultEntry';
-import Map from './components/Map/Map';
+import { getWikipediaResults, loadLocation } from "./utils/utils";
+import ResultEntry from "./components/ResultEntry/ResultEntry";
+import Map from "./components/Map/Map";
 
-import ArrowUp from './components/ArrowUp/ArrowUp';
-import Spinner from './components/Spinner/Spinner';
-import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator';
+import ArrowUp from "./components/ArrowUp/ArrowUp";
+import Spinner from "./components/Spinner/Spinner";
+import ErrorIndicator from "./components/ErrorIndicator/ErrorIndicator";
 
-import { useInView } from 'react-intersection-observer';
+import { useInView } from "react-intersection-observer";
 
 const MAX_CLICK_SEARCH_FOR_WIKIPEDIA_API = 8;
 
@@ -23,7 +23,7 @@ const App = () => {
   const [loadedEnglish, setLoadedEnglish] = useState(false);
   const [showMapView, setShowMapView] = useState(false);
   const [showPage, setShowPage] = useState(false);
-  const [speaking, setSpeaking] = useState('');
+  const [speaking, setSpeaking] = useState("");
 
   const { ref, inView } = useInView({
     threshold: 1,
@@ -47,7 +47,7 @@ const App = () => {
       rad,
       setFetchError,
       () => {},
-      'en',
+      "en"
     );
     window.scrollTo(0, 0);
   };
@@ -73,7 +73,7 @@ const App = () => {
               setResults,
               10000,
               setFetchError,
-              () => {},
+              () => {}
             );
             setRadius(10000);
             getWikipediaResults(
@@ -82,26 +82,26 @@ const App = () => {
               10000,
               setFetchError,
               () => {},
-              'en',
+              "en"
             );
           },
-          'en',
+          "en"
         );
       });
     }
   }, [location]);
   const revealPage = () => {
     setShowPage((prevState) => !prevState);
-    document.getElementById('description')?.remove();
-    const header = document.getElementById('top-header');
+    document.getElementById("description")?.remove();
+    const header = document.getElementById("top-header");
 
     if (header) {
-      header.className = 'smaller-header';
+      header.className = "smaller-header";
     }
 
     const search = window.location.search;
-    if (search.startsWith('?')) {
-      const s = decodeURI(search.substring(1)).split(',');
+    if (search.startsWith("?")) {
+      const s = decodeURI(search.substring(1)).split(",");
       if (s.length == 2) {
         setLocation({ lat: +s[0], lng: +s[1] });
         return;
@@ -165,7 +165,7 @@ const App = () => {
                     <div
                       ref={ref}
                       style={{
-                        height: '150px',
+                        height: "150px",
                       }}
                     ></div>
                   </div>
@@ -176,12 +176,12 @@ const App = () => {
 
               <div
                 style={{
-                  position: 'sticky',
+                  position: "sticky",
                   gap: 3,
                   bottom: 0,
-                  display: 'flex',
-                  placeContent: 'center',
-                  justifyContent: 'space-around',
+                  display: "flex",
+                  placeContent: "center",
+                  justifyContent: "space-around",
                   zIndex: 9999,
                 }}
               >
@@ -193,22 +193,22 @@ const App = () => {
                     setShowMapView((prev) => !prev);
                   }}
                 >
-                  {showMapView ? 'רשימה' : 'מפה'}
+                  {showMapView ? "רשימה" : "מפה"}
                 </button>
-                {!showMapView && <ArrowUp fill='#646cff' />}
+                {!showMapView && <ArrowUp fill="#646cff" />}
               </div>
             </div>
           )}
         </>
       ) : (
-        <div style={{ display: 'flex', placeContent: 'center' }}>
+        <div style={{ display: "flex", placeContent: "center" }}>
           <button
             onClick={revealPage}
             style={{
-              textAlign: 'center',
-              backgroundColor: '#535bf2',
-              color: 'white',
-              marginBottom: '30px',
+              textAlign: "center",
+              backgroundColor: "#535bf2",
+              color: "white",
+              marginBottom: "30px",
             }}
           >
             לחצו כדי לראות מה קורה סביבכם
