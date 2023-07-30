@@ -1,13 +1,13 @@
-import { FC, useEffect, useState } from 'react';
-import { Geosearch, LatLngLocation } from '../../utils/types';
+import { FC, useEffect, useState } from "react";
+import { Geosearch, LatLngLocation } from "../../utils/types";
 import {
   direction,
   getGoogleMapLink,
   getResultLink,
   getTextToSpeak,
-} from '../../utils/utils';
+} from "../../utils/utils";
 
-import './result-entry.scss';
+import "./result-entry.scss";
 
 type ResultEntryProps = {
   result: Geosearch;
@@ -33,19 +33,19 @@ const ResultEntry: FC<ResultEntryProps> = ({
       .find(
         (v) =>
           v.lang.startsWith(result.wikiLang) &&
-          (v.name.includes('Google US English') ?? true),
+          (v.name.includes("Google US English") ?? true),
       )!;
   }
 
   useEffect(() => {
     window.speechSynthesis.onvoiceschanged = (x) => {
-      console.log('voicesChanged');
+      console.log("voicesChanged");
     };
     {
       getTextToSpeak(result).then((text) => {
-        let tmp = document.createElement('DIV');
+        let tmp = document.createElement("DIV");
         tmp.innerHTML = text;
-        text = tmp.textContent || tmp.innerText || '';
+        text = tmp.textContent || tmp.innerText || "";
 
         const split = text
           .split(/[.\n]/)
@@ -80,16 +80,16 @@ const ResultEntry: FC<ResultEntryProps> = ({
 
     if (!s.voice) {
       alert(
-        'בדפדפן זה חסר קול עבור השפה ' +
-          (result.wikiLang == 'he' ? 'עברית' : result.wikiLang),
+        "בדפדפן זה חסר קול עבור השפה " +
+          (result.wikiLang == "he" ? "עברית" : result.wikiLang),
       );
       return;
     }
 
-    s.addEventListener('end', () => {
+    s.addEventListener("end", () => {
       setSpeechIndex((i) => i + 1);
     });
-    s.addEventListener('error', (err) => console.log(err));
+    s.addEventListener("error", (err) => console.log(err));
 
     speech.speak(s);
     iAmSpeaking();
@@ -107,46 +107,46 @@ const ResultEntry: FC<ResultEntryProps> = ({
     setSpeechIndex(0);
   }
   return (
-    <div className={'NewResultEntry' + (imageLoaded ? ' has-image' : '')}>
+    <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
       <div>
         {result?.mainImage && (
           <a
             href={getResultLink(result)}
-            target='_blank'
+            target="_blank"
           >
             <img
               onLoad={() => setImageLoaded(true)}
               src={result?.mainImage}
               alt={result?.mainImageAlt}
-              className='ResultEntry--main__image'
+              className="ResultEntry--main__image"
             />
           </a>
         )}
-        <div className='text-part'>
+        <div className="text-part">
           <div style={{ flexGrow: 1 }}>
             <a
               className={
-                'ResultEntry--main__link' +
-                (result.wikiLang !== 'he' ? ' NewResultEntry__ltr' : '')
+                "ResultEntry--main__link" +
+                (result.wikiLang !== "he" ? " NewResultEntry__ltr" : "")
               }
               href={getResultLink(result)}
-              target='_blank'
+              target="_blank"
             >
               {result?.title}
             </a>
             <div
-              className={result.wikiLang !== 'he' ? ' NewResultEntry__ltr' : ''}
+              className={result.wikiLang !== "he" ? " NewResultEntry__ltr" : ""}
             >
               {result?.description}
             </div>
-            {result.wikiLang !== 'he' && (
+            {result.wikiLang !== "he" && (
               <div>
                 <a
                   href={
-                    'https://translate.google.com/translate?js=n&sl=en&tl=he&u=' +
+                    "https://translate.google.com/translate?js=n&sl=en&tl=he&u=" +
                     getResultLink(result)
                   }
-                  target='_blank'
+                  target="_blank"
                 >
                   תרגום של גוגל
                 </a>
@@ -157,9 +157,9 @@ const ResultEntry: FC<ResultEntryProps> = ({
                 <>
                   <div
                     style={{
-                      fontSize: '36px',
-                      display: 'flex',
-                      gap: '16px',
+                      fontSize: "36px",
+                      display: "flex",
+                      gap: "16px",
                     }}
                   >
                     {speaking && (
@@ -170,9 +170,9 @@ const ResultEntry: FC<ResultEntryProps> = ({
                     <span>{`${textsToRead.length}/${speechIndex} `}</span>
                     <span
                       onClick={readIt}
-                      style={{ transform: 'scaleX(-1)' }}
+                      style={{ transform: "scaleX(-1)" }}
                     >
-                      {playing ? `⏸️` : '▶️'}
+                      {playing ? `⏸️` : "▶️"}
                     </span>
                     {speaking && (
                       <span onClick={() => setSpeechIndex((i) => i + 1)}>
@@ -195,33 +195,33 @@ const ResultEntry: FC<ResultEntryProps> = ({
               ))}
           </div>
           <a
-            className='NewResultEntry--location-area'
+            className="NewResultEntry--location-area"
             href={getGoogleMapLink(result)}
-            target='_blank'
+            target="_blank"
           >
             <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
               strokeWidth={1.5}
-              stroke='currentColor'
+              stroke="currentColor"
             >
               <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
               />
               <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
               />
             </svg>
-            <div className='ResultEntry--main__distance'>
-              {(result?.dist / 1000)?.toFixed(1)}{' '}
-              <span className={'ResultEntry--main__distance--text'}>ק"מ</span>
+            <div className="ResultEntry--main__distance">
+              {(result?.dist / 1000)?.toFixed(1)}{" "}
+              <span className={"ResultEntry--main__distance--text"}>ק"מ</span>
             </div>
-            <div style={{ fontSize: 'small' }}>
+            <div style={{ fontSize: "small" }}>
               {direction(location, result)}
             </div>
           </a>
