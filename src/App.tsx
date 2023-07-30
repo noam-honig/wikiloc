@@ -9,9 +9,14 @@ import ArrowUp from "./components/ArrowUp/ArrowUp";
 import Spinner from "./components/Spinner/Spinner";
 import ErrorIndicator from "./components/ErrorIndicator/ErrorIndicator";
 
+import { useInView } from "react-intersection-observer";
+
+const MAX_CLICK_SEARCH_FOR_WIKIPEDIA_API = 8;
+
 const App = () => {
   const [location, setLocation] = useState<LatLngLocation>();
   const [radius, setRadius] = useState(2000);
+  const [clickCounter, setClickCounter] = useState(1);
   const [locationError, setLocationError] = useState<string>();
   const [fetchError, setFetchError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>();
@@ -19,6 +24,37 @@ const App = () => {
   const [showMapView, setShowMapView] = useState(false);
   const [showPage, setShowPage] = useState(false);
   const [speaking, setSpeaking] = useState("");
+
+  const { ref, inView } = useInView({
+    threshold: 1,
+  });
+
+  const handleClick = () => {
+    if (clickCounter >= MAX_CLICK_SEARCH_FOR_WIKIPEDIA_API) return;
+    setClickCounter((prevClick) => prevClick + 1);
+    let rad = radius;
+    if (!loadedEnglish) {
+      setLoadedEnglish(true);
+    } else {
+      rad *= 2;
+      if (rad > 10000) rad = 10000;
+      setRadius(rad);
+      getWikipediaResults(location!, setResults, rad, setFetchError, () => {});
+    }
+    getWikipediaResults(
+      location!,
+      setResults,
+      rad,
+      setFetchError,
+      () => {},
+      "en"
+    );
+    window.scrollTo(0, 0);
+  };
+
+  useEffect(() => {
+    if (inView) handleClick();
+  }, [inView]);
 
   useEffect(() => {
     if (location && !locationError) {
@@ -112,19 +148,27 @@ const App = () => {
                     />
                   )}
 
-                  {!showMapView &&
-                    results.map((result) => {
-                      const key = result.pageid + result.wikiLang;
-                      return (
-                        <ResultEntry
-                          key={key}
-                          result={result}
-                          location={location}
-                          speaking={key === speaking}
-                          iAmSpeaking={() => setSpeaking(key)}
-                        />
-                      );
-                    })}
+                  <div>
+                    {!showMapView &&
+                      results.map((result) => {
+                        const key = result.pageid + result.wikiLang;
+                        return (
+                          <ResultEntry
+                            key={key}
+                            result={result}
+                            location={location}
+                            speaking={key === speaking}
+                            iAmSpeaking={() => setSpeaking(key)}
+                          />
+                        );
+                      })}
+                    <div
+                      ref={ref}
+                      style={{
+                        height: "150px",
+                      }}
+                    ></div>
+                  </div>
                 </>
               ) : (
                 <div>Unable to get location - {locationError}</div>
@@ -141,37 +185,8 @@ const App = () => {
                   zIndex: 9999,
                 }}
               >
-                {radius < 10000 && (
-                  <button
-                    onClick={() => {
-                      let rad = radius;
-                      if (!loadedEnglish) {
-                        window.scrollTo(0, 0);
-                        setLoadedEnglish(true);
-                      } else {
-                        rad *= 2;
-                        if (rad > 10000) rad = 10000;
-                        setRadius(rad);
-                        getWikipediaResults(
-                          location!,
-                          setResults,
-                          rad,
-                          setFetchError,
-                          () => {}
-                        );
-                      }
-                      getWikipediaResults(
-                        location!,
-                        setResults,
-                        rad,
-                        setFetchError,
-                        () => {},
-                        "en"
-                      );
-                    }}
-                  >
-                    עוד תוצאות
-                  </button>
+                {clickCounter < MAX_CLICK_SEARCH_FOR_WIKIPEDIA_API && (
+                  <button onClick={handleClick}>עוד תוצאות</button>
                 )}
                 <button
                   onClick={() => {

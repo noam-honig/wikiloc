@@ -30,7 +30,11 @@ const ResultEntry: FC<ResultEntryProps> = ({
   function findVoice() {
     return window.speechSynthesis
       .getVoices()
-      .find((v) => v.lang.startsWith(result.wikiLang))!;
+      .find(
+        (v) =>
+          v.lang.startsWith(result.wikiLang) &&
+          (v.name.includes("Google US English") ?? true)
+      )!;
   }
 
   useEffect(() => {
@@ -73,6 +77,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
     let text = textsToRead![speechIndex];
     let s = new SpeechSynthesisUtterance(text);
     s.voice = findVoice();
+
     if (!s.voice) {
       alert(
         "בדפדפן זה חסר קול עבור השפה " +
@@ -105,7 +110,10 @@ const ResultEntry: FC<ResultEntryProps> = ({
     <div className={"NewResultEntry" + (imageLoaded ? " has-image" : "")}>
       <div>
         {result?.mainImage && (
-          <a href={getResultLink(result)} target="_blank">
+          <a
+            href={getResultLink(result)}
+            target="_blank"
+          >
             <img
               onLoad={() => setImageLoaded(true)}
               src={result?.mainImage}
@@ -160,7 +168,10 @@ const ResultEntry: FC<ResultEntryProps> = ({
                       </span>
                     )}
                     <span>{`${textsToRead.length}/${speechIndex} `}</span>
-                    <span onClick={readIt} style={{ transform: "scaleX(-1)" }}>
+                    <span
+                      onClick={readIt}
+                      style={{ transform: "scaleX(-1)" }}
+                    >
                       {playing ? `⏸️` : "▶️"}
                     </span>
                     {speaking && (
