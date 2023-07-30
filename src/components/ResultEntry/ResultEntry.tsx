@@ -33,7 +33,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
       .find(
         (v) =>
           v.lang.startsWith(result.wikiLang) &&
-          (v.name.includes("Google US English") ?? true),
+          (v.name.includes("Google US English") ?? true)
       )!;
   }
 
@@ -53,7 +53,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
           .map((x) =>
             x
               .replaceAll('"', String.fromCharCode(1524))
-              .replaceAll("'", String.fromCharCode(1523)),
+              .replaceAll("'", String.fromCharCode(1523))
           );
 
         setTextsToRead(split);
@@ -81,7 +81,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
     if (!s.voice) {
       alert(
         "בדפדפן זה חסר קול עבור השפה " +
-          (result.wikiLang == "he" ? "עברית" : result.wikiLang),
+          (result.wikiLang == "he" ? "עברית" : result.wikiLang)
       );
       return;
     }

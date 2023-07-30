@@ -47,7 +47,7 @@ const App = () => {
       rad,
       setFetchError,
       () => {},
-      "en",
+      "en"
     );
     window.scrollTo(0, 0);
   };
@@ -73,7 +73,7 @@ const App = () => {
               setResults,
               10000,
               setFetchError,
-              () => {},
+              () => {}
             );
             setRadius(10000);
             getWikipediaResults(
@@ -82,10 +82,10 @@ const App = () => {
               10000,
               setFetchError,
               () => {},
-              "en",
+              "en"
             );
           },
-          "en",
+          "en"
         );
       });
     }
