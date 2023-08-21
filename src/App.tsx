@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { Geosearch, LatLngLocation } from "./utils/types";
+import { useEffect, useState } from 'react';
+import { Geosearch, LatLngLocation } from './utils/types';
 
-import { getWikipediaResults, loadLocation } from "./utils/utils";
-import ResultEntry from "./components/ResultEntry/ResultEntry";
-import Map from "./components/Map/Map";
+import { getWikipediaResults, loadLocation } from './utils/utils';
+import ResultEntry from './components/ResultEntry/ResultEntry';
+import Map from './components/Map/Map';
 
-import ArrowUp from "./components/ArrowUp/ArrowUp";
-import Spinner from "./components/Spinner/Spinner";
-import ErrorIndicator from "./components/ErrorIndicator/ErrorIndicator";
+import ArrowUp from './components/ArrowUp/ArrowUp';
+import Spinner from './components/Spinner/Spinner';
+import ErrorIndicator from './components/ErrorIndicator/ErrorIndicator';
 
-import { useInView } from "react-intersection-observer";
+import { useInView } from 'react-intersection-observer';
 
 const MAX_CLICK_SEARCH_FOR_WIKIPEDIA_API = 8;
 
@@ -20,10 +20,9 @@ const App = () => {
   const [locationError, setLocationError] = useState<string>();
   const [fetchError, setFetchError] = useState<string>();
   const [results, setResults] = useState<Geosearch[]>();
-  const [loadedEnglish, setLoadedEnglish] = useState(false);
   const [showMapView, setShowMapView] = useState(false);
   const [showPage, setShowPage] = useState(false);
-  const [speaking, setSpeaking] = useState("");
+  const [speaking, setSpeaking] = useState('');
 
   const { ref, inView } = useInView({
     threshold: 1,
@@ -33,75 +32,56 @@ const App = () => {
     if (clickCounter >= MAX_CLICK_SEARCH_FOR_WIKIPEDIA_API) return;
     setClickCounter((prevClick) => prevClick + 1);
     let rad = radius;
-    if (!loadedEnglish) {
-      setLoadedEnglish(true);
-    } else {
-      rad *= 2;
-      if (rad > 10000) rad = 10000;
-      setRadius(rad);
-      getWikipediaResults(location!, setResults, rad, setFetchError, () => {});
-    }
+
+    if (rad > 10000) rad = 10000;
+    setRadius(rad * 2);
+
     getWikipediaResults(
       location!,
       setResults,
       rad,
       setFetchError,
       () => {},
-      "en"
+      'en'
     );
-    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
-    if (inView) handleClick();
+    if (inView && !showMapView) handleClick();
   }, [inView]);
+
+  useEffect(() => {
+    if (showMapView) window.scrollTo(0, 0);
+  }, [showMapView]);
 
   useEffect(() => {
     if (location && !locationError) {
       setResults([]);
       getWikipediaResults(location, setResults, radius, setFetchError, () => {
-        setLoadedEnglish(true);
         getWikipediaResults(
           location,
           setResults,
-          radius,
+          10000,
           setFetchError,
-          () => {
-            setRadius(10000);
-            getWikipediaResults(
-              location,
-              setResults,
-              10000,
-              setFetchError,
-              () => {}
-            );
-            setRadius(10000);
-            getWikipediaResults(
-              location,
-              setResults,
-              10000,
-              setFetchError,
-              () => {},
-              "en"
-            );
-          },
-          "en"
+          () => {},
+          'en'
         );
       });
     }
   }, [location]);
+
   const revealPage = () => {
     setShowPage((prevState) => !prevState);
-    document.getElementById("description")?.remove();
-    const header = document.getElementById("top-header");
+    document.getElementById('description')?.remove();
+    const header = document.getElementById('top-header');
 
     if (header) {
-      header.className = "smaller-header";
+      header.className = 'smaller-header';
     }
 
     const search = window.location.search;
-    if (search.startsWith("?")) {
-      const s = decodeURI(search.substring(1)).split(",");
+    if (search.startsWith('?')) {
+      const s = decodeURI(search.substring(1)).split(',');
       if (s.length == 2) {
         setLocation({ lat: +s[0], lng: +s[1] });
         return;
@@ -165,7 +145,7 @@ const App = () => {
                     <div
                       ref={ref}
                       style={{
-                        height: "150px",
+                        display: `${showMapView}?'none':'block'`,
                       }}
                     ></div>
                   </div>
@@ -176,12 +156,12 @@ const App = () => {
 
               <div
                 style={{
-                  position: "sticky",
+                  position: 'sticky',
                   gap: 3,
                   bottom: 0,
-                  display: "flex",
-                  placeContent: "center",
-                  justifyContent: "space-around",
+                  display: 'flex',
+                  placeContent: 'center',
+                  justifyContent: 'space-around',
                   zIndex: 9999,
                 }}
               >
@@ -193,7 +173,7 @@ const App = () => {
                     setShowMapView((prev) => !prev);
                   }}
                 >
-                  {showMapView ? "רשימה" : "מפה"}
+                  {showMapView ? 'רשימה' : 'מפה'}
                 </button>
                 {!showMapView && <ArrowUp fill="#646cff" />}
               </div>
@@ -201,14 +181,14 @@ const App = () => {
           )}
         </>
       ) : (
-        <div style={{ display: "flex", placeContent: "center" }}>
+        <div style={{ display: 'flex', placeContent: 'center' }}>
           <button
             onClick={revealPage}
             style={{
-              textAlign: "center",
-              backgroundColor: "#535bf2",
-              color: "white",
-              marginBottom: "30px",
+              textAlign: 'center',
+              backgroundColor: '#535bf2',
+              color: 'white',
+              marginBottom: '30px',
             }}
           >
             לחצו כדי לראות מה קורה סביבכם

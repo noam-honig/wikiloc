@@ -1,9 +1,8 @@
-import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
-import { Geosearch, LatLngLocation } from "../../utils/types";
-import { Icon } from "leaflet";
-import "leaflet/dist/leaflet.css";
-import ResultEntry from "../ResultEntry/ResultEntry";
-import MarkerClusterGroup from "react-leaflet-cluster";
+import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
+import { Geosearch, LatLngLocation } from '../../utils/types';
+import { Icon } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import ResultEntry from '../ResultEntry/ResultEntry';
 
 type MapProps = {
   results: Geosearch[];
@@ -13,11 +12,11 @@ type MapProps = {
 };
 
 const customIcon = new Icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+  iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
   iconSize: [38, 38],
 });
 const currentLocation = new Icon({
-  iconUrl: "https://maps.google.com/mapfiles/ms/micons/green-dot.png",
+  iconUrl: 'https://maps.google.com/mapfiles/ms/micons/green-dot.png',
   iconSize: [38, 38],
 });
 
@@ -26,7 +25,7 @@ function Map({ results, location, speaking, setSpeaking }: MapProps) {
 
   return (
     <MapContainer
-      style={{ height: "100vh", width: "100wh" }}
+      style={{ height: '82vh', width: '100vw', marginBottom: '0.5rem' }}
       center={[location.lat, location.lng]}
       zoom={13}
     >
@@ -47,9 +46,9 @@ function Map({ results, location, speaking, setSpeaking }: MapProps) {
             <Popup>
               <div
                 style={{
-                  minWidth: "300px",
-                  direction: "rtl",
-                  textAlign: "right",
+                  minWidth: '300px',
+                  direction: 'rtl',
+                  textAlign: 'right',
                 }}
               >
                 <ResultEntry
