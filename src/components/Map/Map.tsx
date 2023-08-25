@@ -25,7 +25,7 @@ function Map({ results, location, speaking, setSpeaking }: MapProps) {
 
   return (
     <MapContainer
-      style={{ height: '82vh', width: '100vw', marginBottom: '0.5rem' }}
+      style={{ height: '82vh', width: 'auto', marginBottom: '0.5rem' }}
       center={[location.lat, location.lng]}
       zoom={13}
     >
@@ -34,7 +34,10 @@ function Map({ results, location, speaking, setSpeaking }: MapProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-      <Marker position={[location.lat, location.lng]} icon={currentLocation} />
+      <Marker
+        position={[location.lat, location.lng]}
+        icon={currentLocation}
+      />
       {results.map((result) => {
         const key = result.pageid + result.wikiLang;
         return (
