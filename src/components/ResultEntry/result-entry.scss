@@ -6,6 +6,8 @@
 
     &__image {
       width: 100%;
+      height: 300px;
+      object-fit: cover;
     }
 
     &__google-link {
@@ -34,7 +36,7 @@
   .text-part {
     display: flex;
     gap: 4px;
-    width:100%;
+    width: 100%;
     justify-content: space-between;
 
     padding: 8px;
@@ -53,6 +55,7 @@
     text-align: center;
     flex-direction: column;
     max-width: 48px !important;
+    margin-right: 1rem;
   }
 }
 
