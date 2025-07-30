@@ -1,6 +1,6 @@
 name: Deploy static content to Pages
 
-on: 
+on:
   push:
     branches: ["master"]
   workflow_dispatch:
@@ -40,11 +40,10 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1.0.6
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
-      - name: Wait for GitHub artifact to become available
-        run: sleep 60
+          path: "./dist"
+
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
