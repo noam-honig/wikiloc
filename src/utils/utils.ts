@@ -31,7 +31,7 @@ export async function getTextToSpeak(result: Geosearch): Promise<string> {
     return result.title;
   }
   let r = await fetch(
-    `https://${result.wikiLang}.wikipedia.org/w/api.php?action=query&pageids=${result.pageid}&format=json&prop=description|pageimages&origin=*&prop=extracts`,
+    `https://${result.wikiLang}.wikipedia.org/w/api.php?action=query&pageids=${result.pageid}&format=json&prop=description|pageimages&pithumbsize=500&origin=*&prop=extracts`,
   ).then((r) => r.json());
   let text = r.query.pages[result.pageid].extract;
   return text;
