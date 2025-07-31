@@ -178,7 +178,7 @@ export async function getWikipediaResults(
 export const getWikipediaInfo = (y: Result, wikiLang: string): string => {
   return `https://${wikiLang}.wikipedia.org/w/api.php?action=query&pageids=${y?.query?.geosearch
     ?.map((t) => t?.pageid)
-    ?.join('|')}&format=json&prop=description|pageimages&origin=*`;
+    ?.join('|')}&format=json&prop=description|pageimages&pithumbsize=500&origin=*`;
 };
 
 export const getResultLink = (result: Geosearch): string => {
