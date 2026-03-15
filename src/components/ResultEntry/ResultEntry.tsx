@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { Geosearch, LatLngLocation } from "../../utils/types";
 import {
   direction,
+  getChatGptAskLink,
   getGoogleMapLink,
   getResultLink,
   getTextToSpeak,
@@ -160,6 +161,7 @@ const ResultEntry: FC<ResultEntryProps> = ({
                       fontSize: "36px",
                       display: "flex",
                       gap: "16px",
+                      alignItems: "center",
                     }}
                   >
                     {speaking && (
@@ -179,6 +181,15 @@ const ResultEntry: FC<ResultEntryProps> = ({
                         ⏪
                       </span>
                     )}
+                    <a
+                      href={getChatGptAskLink(result)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="ספר לי עוד"
+                      style={{ fontSize: 14 }}
+                    >
+                      chatGPT
+                    </a>
                   </div>
                   {/* <div
                     className={
@@ -189,8 +200,16 @@ const ResultEntry: FC<ResultEntryProps> = ({
                   </div> */}
                 </>
               ) : (
-                <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span onClick={readIt}>🔊</span>
+                  <a
+                    href={getChatGptAskLink(result)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="ספר לי עוד"
+                  >
+                    chatGPT
+                  </a>
                 </div>
               ))}
           </div>

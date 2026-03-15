@@ -1,10 +1,10 @@
-import { DIRECTIONS } from './constants';
-import { Geosearch, LatLngLocation, Result } from './types';
+import { DIRECTIONS } from "./constants";
+import { Geosearch, LatLngLocation, Result } from "./types";
 
 const TESTING = false;
 export function loadLocation(
   setLocation: (loc: LatLngLocation) => void,
-  setError: (error: string) => void,
+  setError: (error: string) => void
 ) {
   if (TESTING) {
     setLocation({
@@ -22,8 +22,8 @@ export function loadLocation(
       });
     },
     (error) => {
-      setError('Location Error: ' + error?.message);
-    },
+      setError("Location Error: " + error?.message);
+    }
   );
 }
 export async function getTextToSpeak(result: Geosearch): Promise<string> {
@@ -31,14 +31,14 @@ export async function getTextToSpeak(result: Geosearch): Promise<string> {
     return result.title;
   }
   let r = await fetch(
-    `https://${result.wikiLang}.wikipedia.org/w/api.php?action=query&pageids=${result.pageid}&format=json&prop=description|pageimages&pithumbsize=500&origin=*&prop=extracts`,
+    `https://${result.wikiLang}.wikipedia.org/w/api.php?action=query&pageids=${result.pageid}&format=json&prop=description|pageimages&pithumbsize=500&origin=*&prop=extracts`
   ).then((r) => r.json());
   let text = r.query.pages[result.pageid].extract;
   return text;
 }
 export const direction = (
   location: LatLngLocation | undefined,
-  r: Geosearch,
+  r: Geosearch
 ) => {
   let degrees =
     (Math.atan2(location!.lng - r.lon, location!.lat - r.lat) * 180) / Math.PI +
@@ -58,7 +58,7 @@ export const direction = (
 export const getFetchURL = (
   location: LatLngLocation,
   radius: number,
-  wikiLang: string,
+  wikiLang: string
 ): string => {
   return `https://${wikiLang}.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${location?.lat}|${location?.lng}&gsradius=${radius}&gslimit=50&format=json&gsprop=type|name&inprop=url&prop=info&origin=*`;
 };
@@ -66,22 +66,22 @@ export const getFetchURL = (
 export const addDataToResult = (
   results: Geosearch[],
   y: any,
-  wikiLang: string,
+  wikiLang: string
 ) => {
   return results.map((result) => {
     if (result.wikiLang === wikiLang) {
       const mainImage: string =
         y?.query?.pages[result.pageid]?.thumbnail?.source?.replace(
-          '50px',
-          '500px',
-        ) || './no-image-placeholder.png';
+          "50px",
+          "500px"
+        ) || "./no-image-placeholder.png";
       const mainImageAlt: string =
-        y?.query?.pages[result.pageid]?.pageimage?.split('.')[0];
+        y?.query?.pages[result.pageid]?.pageimage?.split(".")[0];
       return {
         ...result,
         description: y?.query?.pages[result?.pageid]?.description,
-        mainImage: mainImage?.includes('no_free_image_yet')
-          ? './no-image-placeholder.png'
+        mainImage: mainImage?.includes("no_free_image_yet")
+          ? "./no-image-placeholder.png"
           : mainImage,
         mainImageAlt,
       };
@@ -93,49 +93,49 @@ export const addDataToResult = (
 export async function getWikipediaResults(
   location: LatLngLocation,
   setResults: (
-    reduce: (orig: Geosearch[] | undefined) => Geosearch[] | undefined,
+    reduce: (orig: Geosearch[] | undefined) => Geosearch[] | undefined
   ) => void,
   radius: number,
   setFetchError: React.Dispatch<React.SetStateAction<string | undefined>>,
   noResults: () => void,
-  wikiLang = 'he',
+  wikiLang = "he"
 ) {
   if (TESTING) {
     setResults(() => [
       {
         pageid: 1,
-        title: 'מטוס',
-        wikiLang: 'he',
+        title: "מטוס",
+        wikiLang: "he",
         dist: 1,
-        name: 'test',
+        name: "test",
         lat: 1,
         lon: 1,
         ns: 1,
-        primary: '1',
+        primary: "1",
         type: null,
       },
       {
         pageid: 2,
-        title: 'דירה',
-        wikiLang: 'he',
+        title: "דירה",
+        wikiLang: "he",
         dist: 1,
-        name: 'test',
+        name: "test",
         lat: 1,
         lon: 1,
         ns: 1,
-        primary: '1',
+        primary: "1",
         type: null,
       },
       {
         pageid: 3,
-        title: 'boat',
-        wikiLang: 'en',
+        title: "boat",
+        wikiLang: "en",
         dist: 1,
-        name: 'test',
+        name: "test",
         lat: 1,
         lon: 1,
         ns: 1,
-        primary: '1',
+        primary: "1",
         type: null,
       },
     ]);
@@ -157,9 +157,7 @@ export async function getWikipediaResults(
         ...response.query.geosearch
           .filter(
             (g) =>
-              !orig!.find(
-                (o) => o.pageid == g.pageid && o.wikiLang == wikiLang,
-              ),
+              !orig!.find((o) => o.pageid == g.pageid && o.wikiLang == wikiLang)
           )
           .map((g) => ({ ...g, wikiLang })),
       ];
@@ -178,7 +176,9 @@ export async function getWikipediaResults(
 export const getWikipediaInfo = (y: Result, wikiLang: string): string => {
   return `https://${wikiLang}.wikipedia.org/w/api.php?action=query&pageids=${y?.query?.geosearch
     ?.map((t) => t?.pageid)
-    ?.join('|')}&format=json&prop=description|pageimages&pithumbsize=500&origin=*`;
+    ?.join(
+      "|"
+    )}&format=json&prop=description|pageimages&pithumbsize=500&origin=*`;
 };
 
 export const getResultLink = (result: Geosearch): string => {
@@ -188,3 +188,10 @@ export const getResultLink = (result: Geosearch): string => {
 export const getGoogleMapLink = (result: Geosearch) => {
   return `https://maps.google.com/?q=${result?.lat},${result?.lon}`;
 };
+
+export function getChatGptAskLink(result: Geosearch): string {
+  const parts = ["ספר לי עוד על", result.title];
+  if (result.description) parts.push(result.description);
+  const q = encodeURIComponent(parts.join(" "));
+  return `https://chatgpt.com/?q=${q}`;
+}
